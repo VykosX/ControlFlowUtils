@@ -1,6 +1,6 @@
 """
 @Author: VykosX
-@Description: Custom nodes to improve flow control and logic + several utilities to enhance capabilities
+@Description: Custom nodes for ComfyUI to enable flow control with advanced loops, conditional branching, logic operations and several other nifty utilities to enhance your ComfyUI workflows
 @Title: ControlFlowUtils
 @Nickname: ControlFlowUtils
 @Version: 0.1.0 ALPHA
@@ -140,7 +140,7 @@ class CycleStart:
     def INPUT_TYPES(s):
         return {
             "required": {"data": any_type, "CYCLE": ("CYCLE",)},
-            "optional": {"aux_data": any_type, "index_override": ("INT" {"forceInput": True},) }
+            "optional": {"aux_data": any_type, "index_override": ("INT", {"forceInput": True},) }
         }
       
     RETURN_TYPES = (any_type,any_type,"INT",)
@@ -148,7 +148,7 @@ class CycleStart:
     FUNCTION = "run"
     CATEGORY = MAIN_CATEGORY
     
-    def run(self, data, CYCLE, aux_data=None,index_overide=None):
+    def run(self, data, CYCLE, aux_data=None,index_override=None):
     
         if CYCLE['index'] is None:
         
