@@ -18,3 +18,4 @@ Furthermore, here is a simpler demonstration of looping in ComfyUI and preservin
 
 https://github.com/user-attachments/assets/c7cddfb5-6881-4fe8-858d-a644fb6ea9a3
 
+NOTE: In order to use the RAM cleaning functionality of the Garbage Collector node, place the exe from this repo https://github.com/IgorMundstein/WinMemoryCleaner into your ComfyUI main directory (currently Windows only).
