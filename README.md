@@ -6,3 +6,7 @@ UNSTABLE ALPHA RELEASE - EXPECT BUGS TO BITE
 PLEASE DO NOT SHARE OUTSIDE OF LINKING TO THE GITHUB
 
 DOCUMENTATION WILL BE ADDED SOON, FOR NOW, FEEL FREE TO TEST AND EXPERIMENT!
+
+Here's a sample workflow that showcases some of the functionality of this pack to get you started.
+
+![Sample Workflow (Iterative Generation)](https://github.com/user-attachments/assets/c192b705-4190-4af2-810a-488f17cfb96e)
