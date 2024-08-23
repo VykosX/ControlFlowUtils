@@ -1,0 +1,13 @@
+[project]
+name = "VykosX-ControlFlowUtils"
+description = "Custom nodes to improve flow control and logic + several utilities to enhance capabilities"
+version = "0.1.0"
+license = "GPL v3"
+
+[project.urls]
+Repository = "https://github.com/VykosX"
+
+[tool.comfy]
+PublisherId = "VykosX"
+DisplayName = "ControlFlowUtils"
+Icon = "🐺"
