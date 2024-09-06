@@ -101,13 +101,11 @@ iterate from, to and by, respectively. If you'd like the loop to return
 automatically to the original Start value, enable the Auto_Reset Input,
 otherwise the cycle will continue to apply Step to Index on each iteration.
 
-HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
+HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
 	def run(self,start,step,end,manual_reset,auto_reset,unique_id):
 	
 		debug_print (">> CYCLE [",unique_id,"] INIT!")
-			
-		#PromptServer.instance.send_sync("VykosX.StartCycle", {"node": node_id})
 			
 		if manual_reset or self.state['finish']:
 			if manual_reset or auto_reset:
@@ -164,7 +162,7 @@ setting the execution to Instant which will queue up prompts automatically.
 Execution can then be interrupted via the [HaltExecution] node on demand
 once your Cycle has finished or for any other reason you may have.
 
-HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
+HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
 	
 	def run(self, data, CYCLE, aux_data=None,index_override=None):
@@ -225,7 +223,7 @@ The Index output specifies the current value of the loop counter after Step
 is applied. The Finished output returns True if the loop counter has reached
 or surpassed the value specified by End.
 
-HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
+HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
 	def run(self, data, CYCLE, aux_data=None):
 	
@@ -287,12 +285,9 @@ class UniversalSwitch:
 			}, "optional": dynamic_inputs, "hidden": {"prompt": "PROMPT", "unique_id": "UNIQUE_ID",}, #"extra_pnginfo": "EXTRA_PNGINFO"},            
 		}
 		
-	#def pack_tuple(s,prefix_type,general_type,count):
-		#return tuple([prefix_type] + [general_type for x in range(1,count+1)])
-		
-	RETURN_TYPES =  tuple([any_type for x in range(1,max_slots+1)])   #pack_tuple(None,"INT",any_type,max_slots) #tuple(["INT"] + [any_type for x in range (1,max_slots+1)])
-	RETURN_NAMES = tuple(list("*" * max_slots))    #tuple([x for x in ["Index"] + list( "*" * max_slots) ]) #tuple('*' * max_slots)      #("Index","*","*","*","*","*",)
-	OUTPUT_TOOLTIPS = tuple(["Output "+ str(x) for x in range(1,max_slots+1)],) #tuple( ["Index of the Selection that was Chosen (-1 for All)"] + ["Output "+x for x in range(1,s_max.slots)] )
+	RETURN_TYPES =  tuple([any_type for x in range(1,max_slots+1)]) 
+	RETURN_NAMES = tuple(list("*" * max_slots))
+	OUTPUT_TOOLTIPS = tuple(["Output "+ str(x) for x in range(1,max_slots+1)],) 
 	FUNCTION = "switch"
 	CATEGORY = MAIN_CATEGORY
 	DESCRIPTION = \
@@ -328,7 +323,7 @@ to PASSTHROUGH mode.
 
 If Validate_Typing is enabled, Outputs will match the type of their respective Inputs. (Currently this functionality is unimplemented).
 
-HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
+HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
 	def check_lazy_status(s, *args, **kwargs):
 	
@@ -349,9 +344,6 @@ HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
 	
 	def switch(s,input1,mode,selection_in,selection_out,validate_typing,**kwargs):
 	
-		#if selection_in is None:
-			#return (None*s.max_slots)
-	
 		def find_valid_output(kwargs):
 	
 			unique_id,prompt = kwargs.pop('unique_id'),kwargs.pop('prompt') #workflow_info = kwargs.pop('extra_pnginfo')
@@ -361,7 +353,7 @@ HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
 			#debug_print ("\nPROMPT:\n",prompt,"\n") #,"\n\nEXTRA INFO:\n",workflow_info)
 			
 			for x in range(0,s.max_slots):
-				if  "'source': ['"+str(unique_id)+"', " + str(x) + "]" in str(prompt): #str(prompt).find(test_str) != -1:
+				if  "'source': ['"+str(unique_id)+"', " + str(x) + "]" in str(prompt):
 					val_out = x+1; break
 			
 			debug_print (">> FIRST VALID OUTPUT SLOT:",val_out)				
@@ -413,13 +405,11 @@ HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
 						ret[0] = selected_slot
 					
 				elif selection_out == -1:
-					ret = [selected_slot for x in range(0,s.max_slots)] #s.pack_tuple(selection,selected_slot, s.max_slots)
+					ret = [selected_slot for x in range(0,s.max_slots)]
 					
 				else:				
-					ret = [None] * (s.max_slots) 	#ret = [selection] + [selected_slot] + [None] * (s.max_slots-1)
-					ret[selection_out-1] = selected_slot  # ret = s.pack_tuple(-1,input1, s.max_slots)
-			
-			#The following operation modes are still untested
+					ret = [None] * (s.max_slots) 
+					ret[selection_out-1] = selected_slot
 			
 			case "CYCLE":
 			
@@ -439,9 +429,7 @@ HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
 						j-=s.max_slots
 						debug_print ("new J=",j)
 					
-					#debug_print ("OPTIONS ",i,":",options[i])
 					ret[j] = options[i]
-					#debug_print ("RET ",j,":",options[j])
 				
 			case "PASSTHROUGH":
 			
@@ -523,7 +511,7 @@ If Require_Inputs is enabled, then you must specify the TRUE_IN and FALSE_IN inp
 If Condition is set to CUSTOM, you may further specify a custom expression which will be evaluated. Within this expression you may use the variables A and B to refer to
 those respective inputs as well as any named global variables from [Memory Storage] nodes. Most valid Python expressions, types and built-in functions are supported in the custom expression. For a full list of supported operations please consult the file 'Helper.py' included in this node pack.
 
-HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
+HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
 	def compare(self,A,B,condition,NOT,custom_expression=""):
 	
@@ -576,10 +564,10 @@ HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
 		if condition == "CUSTOM":
 			if custom_expression!="":
 			
-				Vars = {"A":A,"a":A,"B":B,"b":B} #,"true_in":TRUE_IN,"TRUE_IN":TRUE_IN,"false_in":FALSE_IN,"FALSE_IN":FALSE_IN}
+				Vars = {"A":A,"a":A,"B":B,"b":B}
 				
 				for key, value in VYKOSX_STORAGE_DATA.items():
-					Vars[key] = value #replace_caseless('%'+key+'%',value, B)
+					Vars[key] = value
 				
 				ret = safe_eval(custom_expression,Vars) #return cbool( ast.literal_eval(B) )
 
@@ -597,10 +585,6 @@ HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
 		debug_print (">> IF LAZY CHECK! A:",A,"B:",B,"cond:",condition,"NOT:",NOT,"TRUE:",TRUE_IN,"FALSE:",FALSE_IN)
 		
 		lazy = []
-		
-		#if comparison_type != "Values":
-			#lazy = ["A","B"]
-		#else:
 		
 		if condition == "CUSTOM":
 			if "a" in custom_expression.casefold(): lazy+=["A"]
@@ -673,7 +657,7 @@ The Alert_On_Trigger toggle will further raise an exception when the node interr
 
 Run_After is an unused optional parameter made available only to ensure this node executes after the node it is connected to.
 
-HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
+HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
 	def halt(s,disable,method,clear_queue,alert_on_trigger,input,run_after=None):
 	
@@ -712,13 +696,6 @@ HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
 		
 class FallbackImagePreviewer(nodes.PreviewImage):
 
-	"""def __init__(self, device="cpu"):
-		self.device = device
-		self.output_dir = folder_paths.get_output_directory()
-		self.type = "output"
-		self.prefix_append = ""
-		self.compress_level = 4"""
-
 	MAX_RESOLUTION=16384
 	
 	@classmethod
@@ -740,6 +717,8 @@ class FallbackImagePreviewer(nodes.PreviewImage):
 	CATEGORY = MAIN_CATEGORY
 	DESCRIPTION = """
 Allows you to preview an image even when the input is invalid or missing. If the input image is missing a black empty image of dimensions defined by Fallback_Width and Fallback_Height will be generated. If either parameter is set to 0 then no placeholder image will be generated.
+
+HOVER OVER THE INPUTS FOR MORE INFO.
 """
 	def empty_img_generate(self, width, height, batch_size=1, color=0):
 		r = torch.full([batch_size, height, width, 1], ((color >> 16) & 0xFF) / 0xFF)
@@ -833,7 +812,7 @@ If Return_Full_Path is set to True, found files will be returned with their full
 
 You may optionally point Save_Output_To to a file to save the output of this node to a log file of your choice, which you could then process separately.
 
-HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
+HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
 
 	SCANNER = None
@@ -944,7 +923,7 @@ This node further supports Dynamic Variable Notation which will replace the entr
 • =>__AUX__DISPLAY__PREFIX__: If this string is found inside the Auxilliary parameter, any text preceding this tag in the Auxilliary parameter will be prepended to the final output of the processing, effectively allowing Aux to be used to display additional information in conjunction with Passthrough.
 • __AUX__DISPLAY__SUFFIX__=>: If this string is found inside the Auxilliary parameter, any text following this tag in the Auxilliary parameter will be appended to the final output of the processing, effectively allowing Aux to be used to display additional information in conjunction with Passthrough.
 
-HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
+HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
 
 	PREVIOUS = ""
@@ -1025,8 +1004,6 @@ HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
 					if (pos:= aux.find("=>__AUX__DISPLAY__PREFIX__")) > 0:
 						ret = aux[:pos]+ret
 					
-					#pos = -1
-					
 					if (pos:= aux.find("__AUX__DISPLAY__SUFFIX__=>")) != -1:
 						ret+= aux[pos+26:] #26 = len("__AUX__DISPLAY__SUFFIX__=>")
 						
@@ -1058,10 +1035,6 @@ HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
 			self.PREVIOUS = ret
 			
 			return ret
-			
-		#else: return text_value
- 
-		#CHECK HOW DISPLAY ANY RENDERS LATENT IMAGE (if type=dict). Currently crashes.
 						
 		if (passthrough is not None):                
 
@@ -1136,9 +1109,7 @@ HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
 					text = passthrough
 			
 			debug_print ("RETURN [PASSTHROUGH]:",type(text), repr(text))
-			
-			#PromptServer.instance.send_sync("VykosX.UpdateText", {"node_id": unique_id, "msg": text })
-			
+
 			display_text = repr(text).strip("'\"") if type(text) is not str else text
 			
 			if encapsulate:
@@ -1206,7 +1177,7 @@ You can retrieve a single selection, ready to be forwarded into the Loader node 
 
 Run_After is an unused optional parameter made available only to ensure this node executes after the node it is connected to.
 
-HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
+HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
 	def load_checkpoints(self, checkpoints,run_after=None) -> any_type:
 		#if result:
@@ -1241,12 +1212,9 @@ You can retrieve a single selection, ready to be forwarded into the Loader node 
 
 Run_After is an unused optional parameter made available only to ensure this node executes after the node it is connected to.
 
-HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
+HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
 	def load_lora(self, lora_name,run_after=None) -> any_type:      
-		#if result:
-			#return (lora_name.join("\n"),)
-		#else:
 		return (lora_name,)
 		
 class VAESelector:
@@ -1275,12 +1243,9 @@ You can retrieve a single selection, ready to be forwarded into the Loader node 
 
 Run_After is an unused optional parameter made available only to ensure this node executes after the node it is connected to.
 
-HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
+HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
 	def load_vaes(self, vae,result,run_after=None) -> any_type:
-		#if result:
-			#return (vae.join("\n"),)
-		#else:
 		return (vae,)
 
 class NullInput:
@@ -1382,7 +1347,7 @@ If either Target_Width and Target_Height (but not both) are specified, the image
 
 For the most part the default values work well, and you should specify either a Target_Width or Target_Height to obtain the desired effect, although Scaling_Factor can also be useful in certain situations. 
 
-HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
+HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
 	
 	def adjust_res (self, source_width: int, source_height: int,scaling_factor: float, target_width: int, target_height: int,tolerance:int):
@@ -1482,7 +1447,7 @@ If a given Line number is specified, only that line will be returned. If Line is
 
 If On_EOF is set to Ignore, Line numbers larger than exist within the file will be silently ignored and the node will return an empty string. Otherwise an error will be raised to alert the user.
 
-HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
+HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
 	
 	def load_text(self, file,line=0,on_eof=True):
@@ -1564,7 +1529,7 @@ Additionally, if the Mode is set to Append you may choose whether or not to add 
 
 To specify a dynamic Text, convert the Text widget of this node to an input.
 
-HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
+HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
 	def write_text(self, file_path, mode, terminator, text):
 	
@@ -1699,6 +1664,8 @@ The following operations are available, with their respective required and optio
 
 • UPPERCASE: Converts an expression to UPPERCASE. For lists, all elements will be converted. Result will be True if the operation succeed, False otherwise. Output is a converted expression.
 ⸨ Input:String/List = Expression to evaluate. ⸩
+
+HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
 	
 	
@@ -2206,7 +2173,6 @@ class MemoryStorage:
 		}, "hidden": { "unique_id": "UNIQUE_ID" }
 	  }
 	
-	#TODO: Add Button that shows the value through RaiseException
 	PREV_NAME = ""
 	
 	RETURN_TYPES = (any_type,)
@@ -2225,7 +2191,7 @@ If Reset is set to true, the Memory Storage associated with this node will be cl
 
 If AcceptNulls is enabled, you will be able to manually clear the Storage by sending a None type value through Input such as one obtained from the [Null Output] node in this pack. If AcceptNulls is disabled, any None type values will be ignored, allowing you to ensure the memory is set only to valid values. This can be useful, for instance, when connecting a [Memory Storage] node to a [Universal Switch] node as it will ignore any invalid outputs that were not selected and retain its previous value instead. 
 
-HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
+HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
 	
 	def store(s, Name, Input=None, Reset=False, AcceptNulls=False,unique_id=0):
@@ -2336,6 +2302,8 @@ class DelayExecution:
 You can specify the length of time to wait in seconds by changing the value of Delay. To wait for less than one second, simply specify fractional numbers, such as 0.001 to wait for one millisecond.
 
 This node's implementation of a delay is useful but very naive. It simply instructs the process to be suspended for however long you specify. For a more robust implementation that actually uses a timer and polls it periodically, while still allowing you to cancel out of the waiting period and even has a nifty little screensaver, look no further than the Jovimetrix's [JOV Delay] custom node.
+
+HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
 	def wait(self, Delay, Input=[""]):
 
@@ -2373,7 +2341,7 @@ If you are having VRAM issues or your workflow utilizes multiple models that do 
 
 There are two models of operation depending on the value of ForceUnload. If Enabled, all models will be unloaded immediately, which may cause issues with the workflow if any pending nodes still require access to the model. If Disabled, Model Unloading will be requested instead and ComfyUI will handle unloading it at its earliest convenience. This is analogous to clicking the Unload Model button directly in ComfyUI itself.
 
-HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFO.
+HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
 
 	def unload(self, Passthrough, ForceUnload, node_id):
@@ -2424,7 +2392,7 @@ IF RAM cleaning is enabled, the node will additionally call WinMemoryCleaner.exe
 
 If Mode is set to Run_Async, WinMemoryCleaner.exe will be executed and the workflow execution will continue automatically. This however requires ComfyUI (or rather Python specifically) to be running with Administrative privileges. Otherwise you can use the 'Wait until Completion' mode which does not require administrative privileges and will block execution for a few seconds and resume when the RAM has been thoroughly cleaned and released.
 
-HOVER OVER THE INPUTS AND OUTPUTS OF THE NODE FOR MORE INFORMATION.
+HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
 
 	def garbage_collect(self, Input, RAM, Mode):
