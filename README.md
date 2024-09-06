@@ -3,7 +3,7 @@ Custom nodes for ComfyUI to enable flow control with advanced loops, conditional
 
 [ v0.0.2 Just Released - Nodes are fully documented inside ComfyUI. Documentation should be added to the Github tomorrow. ]
 
-DOCUMENTATION WILL BE ADDED SOON, FOR NOW, PLEASE HAVE A LOOK AT THE INCLUDED SAMPLE WORKFLOWS.
+DOCUMENTATION WILL BE ADDED SOON, FOR NOW, PLEASE HAVE A LOOK AT THE INCLUDED SAMPLES IN THE WORKFLOWS FOLDER.
 
 ---
 
