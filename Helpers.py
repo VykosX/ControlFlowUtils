@@ -98,36 +98,6 @@ def search_folder(folder_path, pattern, recursive, full_path, include_directorie
 	finally:
 		entries.close()
 		
-"""		
-def search_folder(folder_path, pattern, recursive,full_path,include_directories):
-	with os.scandir(folder_path) as files:
-		for f in files:
-			if fnmatch.fnmatch(f.name, pattern):
-				if f.is_file() or (include_directories and f.is_dir()): 
-					if not full_path:
-						yield os.path.relpath(f.path,folder_path)
-					else:
-						yield f.path
-				if f.is_dir() and recursive: yield from search_folder(f.path, pattern, recursive, full_path,include_directories)
-"""
-
-"""
-def search_folder(folder_path, pattern, recursive,full_path,include_directories):
-	with os.scandir(folder_path) as files:
-		for f in files:
-			if f.is_file() and fnmatch.fnmatch(f.name, pattern):
-				if not full_path:
-					print ("RET =", os.path.relpath(f.path,folder_path), " FROM ",f.path)
-					yield os.path.relpath(f.path,folder_path)
-				else:
-					yield f.path
-			elif f.is_dir():
-				if not full_path:
-					yield os.path.relpath(f.path,folder_path)
-				else:
-					yield f.path
-				if recursive: yield from search_folder(f.path, pattern, recursive, full_path,include_directories)
-"""
 def word_test(op,expr):
 
 	if op is None or op == "":
@@ -160,8 +130,6 @@ def word_test(op,expr):
 									return False
 							else:
 								result = True
-							#if y!= "": y = y.replace('.','').replace('+','').replace('-','')
-							#result = (y.isdigit() ) if y!="" else True
 						case _:
 							return False
 							
@@ -242,8 +210,8 @@ operators = {
 	ast.Pow: operator.pow,
 	ast.BitXor: operator.xor,
 	ast.USub: operator.neg,
-	ast.UAdd: operator.pos,	 # Unary addition
-	ast.Invert: operator.inv,  # Bitwise inversion
+	ast.UAdd: operator.pos,
+	ast.Invert: operator.inv,
 	ast.Eq: operator.eq,
 	ast.NotEq: operator.ne,
 	ast.Lt: operator.lt,
@@ -261,7 +229,7 @@ operators = {
 	ast.BitOr: operator.or_,
 	ast.LShift: operator.lshift,
 	ast.RShift: operator.rshift,
-	ast.MatMult: operator.matmul,  # Matrix multiplication
+	ast.MatMult: operator.matmul, 
 }
 
 # Define supported functions
