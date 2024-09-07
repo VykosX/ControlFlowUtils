@@ -104,7 +104,7 @@ Image Previews in ComfyUI have one giant flaw. If you don't pass a valid image t
 
 Easily retrieve a list of files within a folder of your choice for processing within ComfyUI with many options to customize the searching operation, such as filtering by extension or path masks, retrieving folders and files by name, relative, or absolute paths, retrieving one file at a time or all at once and much much more!
 
-## [File Reading and Writing](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#ReadTextFile]
+## [File Reading and Writing](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#ReadTextFile)
 ![Read Text File](https://github.com/user-attachments/assets/74b2b9cf-2719-4028-95a1-b2e3b6f08cfa) ![Save Text File](https://github.com/user-attachments/assets/f1935699-7b79-4bb9-9fac-072e313877b8)
 These nodes allow you to easily read and write to text files anywhere in your system, allowing you to easily load in wildcards, lora triggers, save logs of your workflow execution or anything else you may need!
 
