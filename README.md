@@ -126,4 +126,8 @@ This node will be regularly updated with new features that to improve your Comfy
 
 Stay tuned and happy Comfy'ing!!
 
+---
 
+# KNOWN ISSUES
+
+- Currently the Memory Storages are a little TOO persistent. They will persist even if you load a new workflow. Make sure to clean them via a __MEM__STORAGE__CLEAR operation before switching workflows or restart ComfyUI if you have issues from this. I'm exploring potential solutions and the next release should have a fix for this.
