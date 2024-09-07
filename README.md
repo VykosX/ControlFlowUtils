@@ -74,7 +74,7 @@ This one is for everyone with low RAM (16gb or less) systems that struggle with 
 
 Your one stop shop for all things Data in ComfyUI. This node allows you to visualize the output of any nodes with full passthrough support, serves as a convenient textbox while allowing you to pick the type of the data you wish to convert your output to, supports advanced features including the ability to run advanced mathematical evaluations, data generations, conditions and straight up any valid python code in a safe and non-exploitable manner, and much, much more! For a full list of supported features, consult the wiki entry.
 
-## [String/List Operations](wiki#String_List_Operations)
+## [String/List Operations](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#String_List_Operations)
 
 ![StringList Operations Expanded](https://github.com/user-attachments/assets/e532b300-2709-4639-937c-7dc58b92947b)
 
