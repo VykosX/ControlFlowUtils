@@ -80,19 +80,19 @@ Your one stop shop for all things Data in ComfyUI. This node allows you to visua
 
 This node has you covered for essentially any kind of basic string or list data manipulation you may need to perform in your workflow. It's surprising how often these come up and how many nodes from dozens of different packs are typically needed to handle them. Well, now you can have everything in a single easy-to-use node and greatly simplify your workflows in the process!
 
-## [Image Resolution Adjust](wiki#Image_Resolution_Adjust]
+## [Image Resolution Adjust](wiki#Image_Resolution_Adjust)
 
 ![Image Resolution Adjust](https://github.com/user-attachments/assets/c500d87e-2211-4adf-9d71-ad235d060856)
 
 This node will dynamically adjust the sizes of your images for any aspect ratio of your choice by performing the calculations to maintain the ratio for you for any given width, height or scaling factor. A real timesaver, now you don't need to do the math with a bunch of nodes anymore, and you can even change the scaling dynamically!
 
-## [Fallback Image Previews](wiki#Fallback_Image_Previews)
+## [Fallback Image Previews](wiki#Fallback_Image_Previewer)
 
 ![Fallback Image Previewer](https://github.com/user-attachments/assets/3952e543-d8e5-4174-8996-c2fe674c4850)
 
 Image Previews in ComfyUI have one giant flaw. If you don't pass a valid image to them at any point in your workflow, they will stop your workflow dead in its tracks. This makes conditional branching for generating images at different parts of the workflow a nightmare to deal with. Well no mare. This smart node will silently ignore empty or invalid images or even generate a placeholder image if it's not supplied with a valid image instead!
 
-## Folder Search
+## Folder_Search(wiki#Folder_Search)
 
 ![Folder Search](https://github.com/user-attachments/assets/9d3b1380-7222-4703-9eb0-e27cdfa4bd50)
 
