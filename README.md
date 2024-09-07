@@ -38,7 +38,7 @@ Simply replace the Null input node with the Data of your choice and it will be s
 
 This node allows you to easily test for any condition of your choice, including custom programmable conditions and divert execution, allowing for dynamic branching under ComfyUI's new execution model.
 
-## [Universal Switches](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#Universal_Switches)
+## [Universal Switches](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#Universal_Switch)
 
 ![Universal Switch Expanded](https://github.com/user-attachments/assets/dd2cd4dd-dbdc-4a2e-be43-e5ae3eb91677)
 
