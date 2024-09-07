@@ -98,7 +98,7 @@ This node will dynamically adjust the sizes of your images for any aspect ratio 
 
 Image Previews in ComfyUI have one giant flaw. If you don't pass a valid image to them at any point in your workflow, they will stop your workflow dead in its tracks. This makes conditional branching for generating images at different parts of the workflow a nightmare to deal with. Well no mare. This smart node will silently ignore empty or invalid images or even generate a placeholder image if it's not supplied with a valid image instead!
 
-## [Folder_Search](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#Folder_Search)
+## [Folder Search](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#Folder_Search)
 
 ![Folder Search](https://github.com/user-attachments/assets/9d3b1380-7222-4703-9eb0-e27cdfa4bd50)
 
