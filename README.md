@@ -19,9 +19,9 @@ https://github.com/user-attachments/assets/c7cddfb5-6881-4fe8-858d-a644fb6ea9a3
 # Included Nodes
 
 These are the nodes currently implemented by this pack along with a basic description of their functionalities so you can have an idea of what this pack currently includes.
-For more detailed information, click on the title of each node which will direct you to its entry in [Wiki](wiki).
+For more detailed information, click on the title of each node which will direct you to its entry in [Wiki](https://github.com/VykosX/ControlFlowUtils/wiki/).
 
-## [Cycles]](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#Cycle)
+## [Cycles](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#Cycle)
 ![Cycle](https://github.com/user-attachments/assets/fe8ec278-3ef2-4cf0-a35d-e05543ee9e81)
 ![Cycle Continue](https://github.com/user-attachments/assets/7f24e7ec-fde1-43dd-b0b6-fb43359e016c)
 ![Cycle End](https://github.com/user-attachments/assets/8769de88-488e-4da2-8056-605bf60b41ff)
