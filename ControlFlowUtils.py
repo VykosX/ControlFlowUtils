@@ -294,7 +294,7 @@ class UniversalSwitch:
 """Allows you to pick a specific Input or Output to control the flow of execution
 and transmit data variably based on your selections.
 
-Selection_In determines what Input slot will be transmited and Selection_Out
+Selection_In determines what Input slot will be transmitted and Selection_Out
 specifies what slot that data will be output to. All other Outputs from this
 node that are not used will return None. This node supports Lazy evaluation.
 Only the Inputs that are required based on the selections will be executed.
@@ -312,7 +312,7 @@ after the chosen Input, wrapping around until all Inputs are matched.
 
 If Selection_In is set to 0 (for Modes that support it), the first Input that isn't
 None will be selected. Similarly, Selection_Out will pick the first Output slot
-that has a valid connection (UNIMPLEMENTED: Currently outputs to 1st slot).
+that has a valid connection.
 
 With Selection_In set to -1, all Inputs will be packed into a List and output
 through the slot specified by Selection_Out. With Selection_Out set to -1,
@@ -508,8 +508,7 @@ If NOT is enabled then the condition will be reversed after evaluation.
 
 If Require_Inputs is enabled, then you must specify the TRUE_IN and FALSE_IN inputs as their values will be forwarded to the Output based on the results of the evaluation i.e. TRUE_IN will be forwarded if the condition evaluates to TRUE and FALSE_IN will be forwarded if the condition evaluates to FALSE. If Require_Inputs is disabled then TRUE_IN and FALSE_IN can be omitted and the raw boolean values True and False will be returned based on the result of the comparison.
 
-If Condition is set to CUSTOM, you may further specify a custom expression which will be evaluated. Within this expression you may use the variables A and B to refer to
-those respective inputs as well as any named global variables from [Memory Storage] nodes. Most valid Python expressions, types and built-in functions are supported in the custom expression. For a full list of supported operations please consult the file 'Helper.py' included in this node pack.
+If Condition is set to CUSTOM, you may further specify a custom expression which will be evaluated. Within this expression you may use the variables A and B to refer to those respective inputs as well as any named global variables from [Memory Storage] nodes. Most valid Python expressions, types and built-in functions are supported in the custom expression. For a full list of supported operations please consult the file 'Helper.py' included in this node pack.
 
 HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
@@ -905,9 +904,9 @@ Output_Type can have any of the following values:
 • STRING: The Passthrough/Text will be converted to a String before being forwarded.
 • INT: The Passthrough/Text will be converted to an Integer before being forwarded.
 • FLOAT: The Passthrough/Text will be converted to a Floating Point Number before being forwarded.
-• FLOAT: The Passthrough/Text will be converted to a Boolean (True or False) before being forwarded.
-• LIST: The Passthrough/Text will be wrapped or coverted into a List before being forwarded.
-• TUPLE: The Passthrough/Text will be wrapped or coverted into a Tuple (a list of constants) before being forwarded.
+• BOOLEAN: The Passthrough/Text will be converted to a Boolean (True or False) before being forwarded.
+• LIST: The Passthrough/Text will be wrapped or converted into a List before being forwarded.
+• TUPLE: The Passthrough/Text will be wrapped or converted into a Tuple (a list of constants) before being forwarded.
 • DICT: The Passthrough/Text will be converted into a Dictionary before being forwarded. You must specify your expressions in "Key1:Value1,Key2:Value2…" format.
 • JSON: The Passthrough/Text will be loaded as a JSON dictionary. It must be valid JSON or the function will fail.
 • FORMULA: The Passthrough/Text will be evaluated as Python expression, with full support for most common operators, data types and built-in functions. Internally this is implemented through a restricted subset of the Python language to prevent arbitrary code execution. You can see the full list of support operations and functions in the included 'Helpers.py' file. This output mode allows you to perform complex mathematical and logical operations, including conditionals, loops, lambda functions, list comprehensions, return fully defined arbitrary data types and much, much more.
@@ -915,13 +914,13 @@ Output_Type can have any of the following values:
 This node further supports Dynamic Variable Notation which will replace the entries for the following variables:
 • %AUX%: Replaces the placeholder %AUX% with the value of the Aux Input (Not Case Sensitive).
 • %PREV%: Replaces the placeholder %PREV% with the value of the Last Output emitted by this node (Not Case Sensitive).
-• %{VAR_NAME}%: Replaces the placecholder %VAR_NAME% with the value of the Memory Storage associated with that name, e.g. %FileName% (All Memory Storage variables are Case Sensitive).
+• %VAR_NAME%: Replaces the placeholder %VAR_NAME% with the value of the Memory Storage associated with that name, e.g. %FileName% (All Memory Storage variables are Case Sensitive).
 • %CLEAR%: Completely clears the text and the previous saved value, and returns an empty string (Not Case Sensitive).
 • __MEM__STORAGE__GET__: Replaces the placeholder __MEM__STORAGE__GET__ with a dictionary of all currently saved Memory Storage entries and their outputs. You can use this to be able to query and manipulate all saved Memory Storages directly (Case Sensitive).
 • __MEM__STORAGE__SET__: Force replaces the internal Memory Storage dictionary with a new dictionary specified by the Aux input, allowing you to overwrite all saved Memory Storages directly. __MEM__STORAGE__SET__ will then be removed from the output after the operation is completed (Case Sensitive).
 • __MEM__STORAGE__CLEAR__: Deletes ALL current memory storages from Memory. Equivalent to __MEM__STORAGE__SET__ with an empty dictionary {} in the Auxiliary parameter. Use with caution. (Case Sensitive).
-• =>__AUX__DISPLAY__PREFIX__: If this string is found inside the Auxilliary parameter, any text preceding this tag in the Auxilliary parameter will be prepended to the final output of the processing, effectively allowing Aux to be used to display additional information in conjunction with Passthrough.
-• __AUX__DISPLAY__SUFFIX__=>: If this string is found inside the Auxilliary parameter, any text following this tag in the Auxilliary parameter will be appended to the final output of the processing, effectively allowing Aux to be used to display additional information in conjunction with Passthrough.
+• =>__AUX__DISPLAY__PREFIX__: If this string is found inside the Auxiliary parameter, any text preceding this tag in the Auxiliary parameter will be prepended to the final output of the processing, effectively allowing Aux to be used to display additional information in conjunction with Passthrough.
+• __AUX__DISPLAY__SUFFIX__=>: If this string is found inside the Auxiliary parameter, any text following this tag in the Auxiliary parameter will be appended to the final output of the processing, effectively allowing Aux to be used to display additional information in conjunction with Passthrough.
 
 HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
@@ -1151,7 +1150,7 @@ HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 	def IS_CHANGED(s,**kwargs):
 		return float("nan")
 		
-class CheckpointSelector:
+class ModelSelector:
 	
 	@classmethod
 	def INPUT_TYPES(s):
@@ -1419,7 +1418,7 @@ HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 			
 class ReadTextFile():
 
-	#Line (-1 = all file, 0 = next line), return line count, loop on each line
+	#TODO: Line (-1 = all file, 0 = next line), return line count, loop on each line?
 
 	@classmethod
 	def IS_CHANGED(self, **kwargs):
@@ -1581,7 +1580,7 @@ class StringOperation:
 	DESCRIPTION = \
 """This node allows you to perform many different types of String and List manipulations based on the selected Operation and the values of its Input and Auxiliary Inputs. You can chain multiples of this node to perform very complex operations or even process data condtionally with the help of [If Selector] and [Universal Switch] nodes.
 
-For most operations, the Result output will specifiy either its success or return any relevant indexes. Whereas Output will remain unchanged or will be modified to suit the operation. If Start_From_End is chosen, this will begin the operation from the end of the string instead of the beginning or from the last element of a list rather than the first. For operations that are typically case sensitive, you can force them to ignore case sensitivity by enabling Case_Insensitive.
+For most operations, the Result output will specify either its success or return any relevant indexes. Whereas Output will remain unchanged or will be modified to suit the operation. If Start_From_End is chosen, this will begin the operation from the end of the string instead of the beginning or from the last element of a list rather than the first. For operations that are typically case sensitive, you can force them to ignore case sensitivity by enabling Case_Insensitive.
 
 For most operations, auxiliary values will be required. These may be supplied either through the Aux1 to Aux3 slots which accept arguments of any type, or through the built-in Param1 to Param3 string inputs. The latter will be prioritized for convenience if they are not left empty. For more advanced operations that require parameters that are not strings, please use the Aux Input slots directly.
  
@@ -1602,7 +1601,7 @@ The following operations are available, with their respective required and optio
 • EXTRACT_BETWEEN: Returns a List of extracted substrings found within a source String or List that match a given pattern. You can use this operation to extract values within delimiters of your choice. E.g. "This %is$ a %test$!" will return a List containing ["is","test"]. The delimiters to check for may be the same or different. Output will be the List of substrings found or an empty list if there were no matches. Result will be the number of tokens extracted.
 ⸨ Input:String/List = Expression to search for tokens to extract. Aux1:String = Preffix Delimiter, [Aux2:String] = Suffix delimiter. If Aux2 is omitted, it will be treated as the same as Aux1. ⸩
 
-• FIND: Attempts to locate a given substring within an Input List or String. If Input is a list, the Result will be a list with the first occurrence of the substring in each element. If the Input is a string, the Result will be an integer with the index of the first ocurrence of the substring. If the substring is not found, this integer will be -1 instead of the index at which the substring occurs. You can further tune the specifics of the operation with the Aux2 and Aux3 optional parameters to restrict matches only to given portion of the Input. Output is not changed by this operation. If Start_From_End is specified, the operation will instead look for the last occurence of the substring.
+• FIND: Attempts to locate a given substring within an Input List or String. If Input is a list, the Result will be a list with the first occurrence of the substring in each element. If the Input is a string, the Result will be an integer with the index of the first occurrence of the substring. If the substring is not found, this integer will be -1 instead of the index at which the substring occurs. You can further tune the specifics of the operation with the Aux2 and Aux3 optional parameters to restrict matches only to given portion of the Input. Output is not changed by this operation. If Start_From_End is specified, the operation will instead look for the last occurence of the substring.
 ⸨ Input:String/List = Expression to process, Aux1:String = Substring to find, [Aux2:Int] = Initial Position to search, [Aux3:Int] = Final Position to search. ⸩
 
 • GENERATE: Repeats a given string a specified number times, optionally separated with a delimiter of your choice. Output is a string repeated a given number of times. Result will be the True if operation succeeds and False otherwise.
@@ -1635,7 +1634,7 @@ The following operations are available, with their respective required and optio
 • RANDOM_ELEMENT: Returns an element from an Input list at random. If Aux1 is True then the element will be removed from the source list after being returned.
 ⸨ Input:List = List to choose an element at random from. [Aux1:Boolean] = Whether to pop the item from the list or simply return it. ⸩
 
-• REPLACE: Replaces any ocurrences of a given substring within an Input List or String. For Lists, each element will be evaluated separately. Result will be True if the operation succeed, False otherwise. Output will be in the same form as Input, after the replacements have been made.
+• REPLACE: Replaces any occurrences of a given substring within an Input List or String. For Lists, each element will be evaluated separately. Result will be True if the operation succeed, False otherwise. Output will be in the same form as Input, after the replacements have been made.
 ⸨ Input:String/List = Expression to evaluate. Aux1:String = Substring to search for. Aux2:String = Expression to replace the substring with. [Aux3] = Maximum number of replacements for each element. ⸩
 
 • SLICE: Outputs a subsection of the Input according to the given parameters. Negative values are also possible for the Auxiliary inputs. This uses Python's slice notation, consult the Python slicing documentation if in doubt. Result will be the length of the sliced expression. 
@@ -2267,7 +2266,7 @@ class InvertCondition:
 	DESCRIPTION = \
 """This node is a simple NOT gate that will invert any conditions that go through it (i.e. conditions evaluating to True will become False and vice versa).
 
-If Mode is set to Logical, instead of dooing a Boolean NOT operation a BINARY not will be executed on the value instead. This is meant to be used for numeric values rather than booleans. For more information on how this works, consult the Wikipedia page on 'Two's Complement'.
+If Mode is set to Logical, instead of performing a Boolean NOT operation a BINARY not will be executed on the value instead. This is meant to be used for numeric values rather than booleans. For more information on how this works, consult the Wikipedia page on 'Two's Complement'.
 """
 	
 	def invert(self, input, mode):

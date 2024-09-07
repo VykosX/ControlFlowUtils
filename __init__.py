@@ -35,7 +35,7 @@ NODE_CLASS_MAPPINGS = {
 	"FolderSearch": ControlFlowUtils.FolderSearch,
 	"ReadTextFile": ControlFlowUtils.ReadTextFile,
 	"SaveTextFile": ControlFlowUtils.SaveTextFile,
-	"CheckpointSelector": ControlFlowUtils.CheckpointSelector,
+	"ModelSelector": ControlFlowUtils.ModelSelector,
 	"LoraSelector": ControlFlowUtils.LoraSelector,
 	"VAESelector": ControlFlowUtils.VAESelector,
 }
@@ -53,7 +53,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
 	"NullInput": "🟦 Null Input",
 	"SimpleToggle": "🔶 Simple Toggle",
 	"InvertCondition": "🚫 NOT (Invert Condition)",
-	"Wait": "⌛ Wait",
+	"Wait": "⌛ Wait (Delay Execution)",
 	"HaltExecution": "🛑 Halt Execution",
 	"GarbageCollector": "🗑 Garbage Collector",
 	"UnloadModels": "❌ Unload Models",
@@ -62,7 +62,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
 	"FolderSearch": "📁 Folder Search",
 	"ReadTextFile": "📄 Read Text File",
 	"SaveTextFile": "💾 Save Text File",
-	"CheckpointSelector": "🏁 Checkpoint Selector",
+	"ModelSelector": "🏁 Model Selector",
 	"LoraSelector": "🏴 LoRA Selector",
 	"VAESelector": "🚩 VAE Selector",
 }
