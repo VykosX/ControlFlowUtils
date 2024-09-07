@@ -36,7 +36,7 @@ Simply replace the Null Output node with the Data of your choice and it will be 
 
 ![If Selector Expanded](https://github.com/user-attachments/assets/c5d8055e-5c68-4724-ade3-c52deb0a4041)
 
-This node allows you to easily test for any condition of your choice, including custom programmable conditions and divert execution, allowing for dynamic branching under ComfyUI's new execution model.
+This node allows you to easily test for any condition of your choice, including custom programmable conditions to divert execution based on how the condition evaluates to True or False, allowing for dynamic branching under ComfyUI's new execution model.
 
 ## [Universal Switches](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#Universal_Switch)
 
