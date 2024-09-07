@@ -1,7 +1,7 @@
 # ControlFlowUtils
 _Custom nodes for ComfyUI to enable flow control with advanced loops, conditional branching, logic operations and several other nifty utilities to enhance your ComfyUI workflows._
 
-### **Latest Release:** v0.0.2 Alpha (2024-09-07 - "Should be fairly stable now.")
+### **Latest Release:** v0.0.3 Alpha (2024-09-07 - "Should be fairly stable now.")
 ---
 
 # Quick Demonstration
