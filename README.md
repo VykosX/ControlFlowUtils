@@ -30,7 +30,7 @@ These three nodes in conjunction allow you to implement looping in ComfyUI by ca
 
 ![Minimum Cycle](https://github.com/user-attachments/assets/dbdbf9a7-6111-435f-b379-ff1fb7754cbf)
 
-Simply replace the Null input node with the Data of your choice and it will be sent along with the loop allowing you to process it iterarively.
+Simply replace the Null input node with the Data of your choice and it will be sent along with the loop allowing you to process it iteratively.
 
 ## [If Selectors](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#IF_Condition_Selector)
 
