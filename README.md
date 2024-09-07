@@ -122,6 +122,8 @@ Check the [Wiki]([#wiki](https://github.com/VykosX/ControlFlowUtils/wiki/Control
 That's it for now. If you have any [issues](https://github.com/VykosX/ControlFlowUtils/issues) or [feedback](https://github.com/VykosX/ControlFlowUtils/discussions) feel free to leave a comment in the relevant section of this Github!
 
 
-This node will be regularly updated with new features that to improve your ComfyUI logic and dynamic workflows even more. Next up, we'll be looking at in-place loops. Stay tuned and happy Comfy'ing!!
+This node will be regularly updated with new features that to improve your ComfyUI logic and dynamic workflows even more. Next up, we'll be looking at in-place loops.
+
+Stay tuned and happy Comfy'ing!!
 
 
