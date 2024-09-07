@@ -80,13 +80,19 @@ Your one stop shop for all things Data in ComfyUI. This node allows you to visua
 
 This node has you covered for essentially any kind of basic string or list data manipulation you may need to perform in your workflow. It's surprising how often these come up and how many nodes from dozens of different packs are typically needed to handle them. Well, now you can have everything in a single easy-to-use node and greatly simplify your workflows in the process!
 
+## [Wait (Delay Execution)](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#Wait_Delay_Execution)
+
+![Wait](https://github.com/user-attachments/assets/62a722b6-2802-45bc-ba07-b5a410323f7a)
+
+This node simply allows you to wait a preconfigured amount of seconds (or milliseconds) in between nodes. You can use to ensure you have enough time to clear your memory, to save resources to disk, or even group a bunch of these with 0 delay together to simply pad out a workflow and manipulate its execution order when you have multiple concurrent branches. Just a nifty little addition that has come in handy many times for me!
+
 ## [Image Resolution Adjust](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#Image_Resolution_Adjust)
 
 ![Image Resolution Adjust](https://github.com/user-attachments/assets/c500d87e-2211-4adf-9d71-ad235d060856)
 
 This node will dynamically adjust the sizes of your images for any aspect ratio of your choice by performing the calculations to maintain the ratio for you for any given width, height or scaling factor. A real timesaver, now you don't need to do the math with a bunch of nodes anymore, and you can even change the scaling dynamically!
 
-## [Fallback Image Previews](wiki#Fallback_Image_Previewer)
+## [Fallback Image Previews](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#Fallback_Image_Previewer)
 
 ![Fallback Image Previewer](https://github.com/user-attachments/assets/3952e543-d8e5-4174-8996-c2fe674c4850)
 
@@ -98,15 +104,14 @@ Image Previews in ComfyUI have one giant flaw. If you don't pass a valid image t
 
 Easily retrieve a list of files within a folder of your choice for processing within ComfyUI with many options to customize the searching operation, such as filtering by extension or path masks, retrieving folders and files by name, relative, or absolute paths, retrieving one file at a time or all at once and much much more!
 
-## [File Reading and Writing](wiki#ReadTextFile]
+## [File Reading and Writing](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#ReadTextFile]
 ![Read Text File](https://github.com/user-attachments/assets/74b2b9cf-2719-4028-95a1-b2e3b6f08cfa) ![Save Text File](https://github.com/user-attachments/assets/f1935699-7b79-4bb9-9fac-072e313877b8)
 These nodes allow you to easily read and write to text files anywhere in your system, allowing you to easily load in wildcards, lora triggers, save logs of your workflow execution or anything else you may need!
 
 ## Other Convenient Nodes
 
-Check the [Wiki]([#wiki](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#)) page for a full description of these nodes! Attached are the images for some of the more niche however very useful nodes this pack includes for convenience. It's all about the little things!
+Check the [Wiki]([#wiki](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#Null_Input)) page for a full description of these nodes! Attached are the images for some of the more niche however very useful nodes this pack includes for convenience. It's all about the little things!
 
-![Wait](https://github.com/user-attachments/assets/62a722b6-2802-45bc-ba07-b5a410323f7a)
 ![Null Input](https://github.com/user-attachments/assets/3de757fe-9151-4f2a-978b-d4dfd3ece6d3)
 ![Null Output](https://github.com/user-attachments/assets/99656fa2-fd48-42f8-aefc-7e563038c2d2)
 ![Simple Toggle](https://github.com/user-attachments/assets/c2d76549-4a1a-4d6c-a226-a8047f0d36f5)
