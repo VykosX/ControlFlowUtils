@@ -42,7 +42,7 @@ This node allows you to easily test for any condition of your choice, including 
 
 ![Universal Switch Expanded](https://github.com/user-attachments/assets/dd2cd4dd-dbdc-4a2e-be43-e5ae3eb91677)
 
-This node allows you to map one or multiple inputs to one or multiple outputs according to a specific programmable criteria of your choice. The uses for this node are many but principal among them is forwarding different models, samplers, etc to different sections of your workflow based on specific logical conditions, allowing for branching and dynamic paths when used in conjunction with the [IF Selector[(wiki#IF_Condition_Selector) node.
+This node allows you to map one or multiple inputs to one or multiple outputs according to a specific programmable criteria of your choice. The uses for this node are many but principal among them is forwarding different models, samplers, etc to different sections of your workflow based on specific logical conditions, allowing for branching and dynamic paths when used in conjunction with the [IF Selector[(https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#IF_Condition_Selector) node.
 
 ## [Halt Execution](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#Halt_Execution)
 
