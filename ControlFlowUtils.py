@@ -3,7 +3,7 @@
 @Description: Custom nodes for ComfyUI to enable flow control with advanced loops, conditional branching, logic operations and several other nifty utilities to enhance your ComfyUI workflows
 @Title: ControlFlowUtils
 @Nickname: ControlFlowUtils
-@Version: 0.2.0 ALPHA
+@Version: 0.4.0 ALPHA
 @URL: https://github.com/VykosX/ControlFlowUtils
 """
 # UNSTABLE ALPHA RELEASE - EXPECT BUGS TO BITE
@@ -874,13 +874,13 @@ class DataMonitor:
 	def INPUT_TYPES(s):
 		return {
 			"required": {
-			   "text":("STRING", {"default": '',"multiline": True,"forceInput": False,"print_to_screen": True}),
-			   "output_type": (["ANY","STRING","INT","FLOAT","BOOLEAN","LIST","TUPLE","DICT","JSON","FORMULA"],{"tooltip":"The type the Passthrough or Text should be converted to"}),
+				"text":("STRING", {"default": '',"multiline": True,"forceInput": False,"print_to_screen": True}),
+				"output_type": (["ANY","STRING","INT","FLOAT","BOOLEAN","LIST","TUPLE","DICT","JSON","FORMULA"],{"tooltip":"The type the Passthrough or Text should be converted to"}),
 			},
-			   "optional": {
-				   "passthrough":(any_type, {"default": "","multiline": True,"forceInput": True,"tooltip": "Any value or data to be visualized and forwarded by this node"}),
-				   "aux":(any_type, {"default": "","forceInput": True, "tooltip": "Any optional Auxiliary data to be processed by this node"}),                   
-			   }, "hidden": { "unique_id": "UNIQUE_ID" }
+				"optional": {
+					"passthrough":(any_type, {"default": "","multiline": True,"forceInput": True,"tooltip": "Any value or data to be visualized and forwarded by this node"}),
+					"aux":(any_type, {"default": "","forceInput": True, "tooltip": "Any optional Auxiliary data to be processed by this node"}),"aux2":(any_type, {"default": "","forceInput": True, "tooltip": "Any optional Auxiliary data to be processed by this node"}),"aux3":(any_type, {"default": "","forceInput": True, "tooltip": "Any optional Auxiliary data to be processed by this node"}),"aux4":(any_type, {"default": "","forceInput": True, "tooltip": "Any optional Auxiliary data to be processed by this node"}),"aux5":(any_type, {"default": "","forceInput": True, "tooltip": "Any optional Auxiliary data to be processed by this node"}),
+			},	"hidden": { "unique_id": "UNIQUE_ID" }
 		}
 	
 	RETURN_TYPES = (any_type,)
@@ -897,7 +897,7 @@ The Output node will forward Passthrough following any modifications specified b
 
 If Passthrough is missing, the text manually entered into the node will be processed and converted to Output_Type. If conversion is not possible an error will be raised.
 
-You can use the Aux Input to further forward Data to be processed by this node, typically in conjunction with the FORMULA Output_Type.
+You can use the Aux Inputs to further forward Data to be processed by this node, typically in conjunction with the FORMULA Output_Type and the %aux%,%aux2%,%aux3%,%aux4% and %aux5% variable replacements.
 
 Output_Type can have any of the following values:
 • ANY: The Passthrough/Text will be forwarded as is without any modification.
@@ -912,7 +912,7 @@ Output_Type can have any of the following values:
 • FORMULA: The Passthrough/Text will be evaluated as Python expression, with full support for most common operators, data types and built-in functions. Internally this is implemented through a restricted subset of the Python language to prevent arbitrary code execution. You can see the full list of support operations and functions in the included 'Helpers.py' file. This output mode allows you to perform complex mathematical and logical operations, including conditionals, loops, lambda functions, list comprehensions, return fully defined arbitrary data types and much, much more.
 
 This node further supports Dynamic Variable Notation which will replace the entries for the following variables:
-• %AUX%: Replaces the placeholder %AUX% with the value of the Aux Input (Not Case Sensitive).
+• %AUX%,%AUX2-5%: Replaces the placeholder %AUX%, %AUX2%,%AUX3%,%AUX4% and %AUX5% with the values of the respective Aux Inputs (Not Case Sensitive).
 • %PREV%: Replaces the placeholder %PREV% with the value of the Last Output emitted by this node (Not Case Sensitive).
 • %VAR_NAME%: Replaces the placeholder %VAR_NAME% with the value of the Memory Storage associated with that name, e.g. %FileName% (All Memory Storage variables are Case Sensitive).
 • %CLEAR%: Completely clears the text and the previous saved value, and returns an empty string (Not Case Sensitive).
@@ -926,115 +926,140 @@ HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
 
 	PREVIOUS = ""
-
-	def data_monitor(self,text="",output_type="ANY",passthrough=None,aux=None,unique_id=0):
 	
-		#TODO:
-		#Add $var$ to resolve to the value of mape variables/KJNodes get/set/ and anything everywhere nodes
-		
-		debug_print("\n>> DATA MONITOR [",unique_id,"]")         
-		debug_print("PASSTHROUGH: ", type(passthrough), repr(passthrough) )
-		debug_print("AUX: ", type(aux), repr(aux))
-		debug_print("OUTPUT TYPE: ", output_type)
-
-
-		def replace_vars(text_value,aux_value,self):
+	def replace_vars(self,text_value,aux_list):
 		
 			global VYKOSX_STORAGE_DATA
 			
 			if text_value is None: text_value = ""
 			
-			try:
-				
-				ret = str(text_value)
-				
-				if aux_value is not None:
-					try:
-						aux = str(aux_value)
-					except:
-						aux = ""
-				else:
-					aux = ""
+			ret,append_mem = "",False
+			
+			#try:
 
-				if aux.casefold() == "%clear%":
+			#Passthrough Replacements:
+			
+			ret = str(text_value)
+			
+			if "%prev%" in ret.casefold():
+				debug_print (">> %PREV% FOUND IN TEXT!")
+				ret = replace_caseless(ret,"%prev%", str(repr( self.PREVIOUS)).replace("'",""))
 				
-					debug_print (">> CLEAR SIGNAL RECEIVED!")
-					
-					ret,self.PREVIOUS = "",""
+			if "__MEM__STORAGE__CLEAR__" in ret:
+				debug_print ("MEM CLEAR REQUEST!")
+				ret = ret.replace("__MEM__STORAGE__CLEAR__", "")
+				VYKOSX_STORAGE_DATA = {}
 				
-				else:
+			if "__MEM__STORAGE__GET__" in ret:
+					ret = ret.replace("__MEM__STORAGE__GET__", str(repr( VYKOSX_STORAGE_DATA)).strip("'\""))
+					
+			if "__MEM__STORAGE__SET__" in ret:
 				
-					debug_print (">> %PREV% =", self.PREVIOUS)
-					append_mem = False
+					if aux_list is not None and type(aux_list[0]) is dict:
+						VYKOSX_STORAGE_DATA = aux_list[0]
+						ret = ret.replace("__MEM__STORAGE__SET__", "")
 					
-					if "%prev%" in aux.casefold():
-						debug_print (">> %PREV% FOUND IN AUX!")
-						aux = replace_caseless(aux,"%prev%", str(repr( self.PREVIOUS)).replace("'",""))
+					else:
+						raise Exception("__MEM__STORAGE__SET__ requires a valid dictionary input in the first Aux_Input!")
+						
+			if "__MEM__STORAGE__KEYS__" in ret:
+				
+					ret = ret.replace("__MEM__STORAGE__KEYS__", ", ".join([k for k in VYKOSX_STORAGE_DATA]) )
 					
-					if "%prev%" in ret.casefold():
-						debug_print (">> %PREV% FOUND IN TEXT!")
-						ret = replace_caseless(ret,"%prev%", str(repr( self.PREVIOUS)).replace("'",""))
-						
-					if "__MEM__STORAGE__CLEAR__" in ret or "__MEM__STORAGE__CLEAR__" in aux:
-						debug_print ("MEM CLEAR REQUEST!")
-						ret = ret.replace("__MEM__STORAGE__CLEAR__", "")
-						VYKOSX_STORAGE_DATA = {}	
+			if aux_list is not None:
+			
+				for i,aux in enumerate(aux_list):
+				
+					if aux is not None:
 					
-					if "__MEM__STORAGE__GET__" in ret:
-						ret = ret.replace("__MEM__STORAGE__GET__", str(repr( VYKOSX_STORAGE_DATA)).strip("'\""))
+						aux = str(aux)
+				
+						if aux.casefold() == "%clear%":
 						
-					#if "__MEM__STORAGE__GET__" in aux:
-						#aux = aux.replace("__MEM__STORAGE__GET__", "")
-						#append_mem = True
-						
-					if "__MEM__STORAGE__SET__" in ret:
-					
-						if type(aux_value) is dict:
-							VYKOSX_STORAGE_DATA = aux_value
-							ret = ret.replace("__MEM__STORAGE__SET__", "")
-						
+							debug_print (">> CLEAR SIGNAL RECEIVED!")
+							
+							ret,self.PREVIOUS = "",""
+				
 						else:
-							raise Exception("__MEM__STORAGE__SET__ requires a valid dictionary input in Aux_Input!")
+					
+							if "%prev%" in aux.casefold():
+								debug_print (">> %PREV% FOUND IN AUX!")
+								aux = replace_caseless(aux,"%prev%", str(repr( self.PREVIOUS)).replace("'",""))
+					
+							if "__MEM__STORAGE__CLEAR__" in aux:							
+								debug_print ("__MEM__STORAGE__CLEAR__ IN AUX")
+								ret = ret.replace("__MEM__STORAGE__CLEAR__", "")
+								VYKOSX_STORAGE_DATA = {}	
 							
-					if "__MEM__STORAGE__KEYS__" in ret:
-					
-						ret = ret.replace("__MEM__STORAGE__KEYS__", ", ".join([k for k in VYKOSX_STORAGE_DATA]) )
-						
-					if (pos:= aux.find("=>__AUX__DISPLAY__PREFIX__")) > 0:
-						ret = aux[:pos]+ret
-					
-					if (pos:= aux.find("__AUX__DISPLAY__SUFFIX__=>")) != -1:
-						ret+= aux[pos+26:] #26 = len("__AUX__DISPLAY__SUFFIX__=>")
-						
-					if "%aux%" in ret.casefold():
-					
-						if aux_value is not None:
-					
-							debug_print ('REPLACING %AUX% in "'+ret+'" with "'+aux+'"!',end="")
+							if "__MEM__STORAGE__GET__" in aux:
+								debug_print ("__MEM__STORAGE__GET__ IN AUX")
+								aux = aux.replace("__MEM__STORAGE__GET__", "")
+								ret+= str(repr( VYKOSX_STORAGE_DATA)).strip("'\"")
 								
-							ret = replace_caseless(ret,"%aux%",aux)
+							if "__MEM__STORAGE__SET__" in aux:
 							
-					if "%" in ret:
+								debug_print ("__MEM__STORAGE__SET__ IN AUX")
 					
-						l_pos = ret.find("%")
-						if l_pos!= -1:
-							r_pos = ret.find("%",l_pos+1)
-							if r_pos!=-1:
-								name = ret[l_pos+1:r_pos]
-								if name in VYKOSX_STORAGE_DATA:
-									ret = ret.replace("%"+name+"%", str(repr( VYKOSX_STORAGE_DATA[name])).replace("'",""))
+								if i!=0 and type(aux_list[0]) is dict:
+									VYKOSX_STORAGE_DATA = aux_list[0]
+									aux = aux.replace("__MEM__STORAGE__SET__", "")
+								
+								else:
+									raise Exception("__MEM__STORAGE__SET__ requires a valid dictionary input in the first Aux_Input!")
+									
+							if "__MEM__STORAGE__KEYS__" in aux:
+							
+								debug_print ("__MEM__STORAGE__KEYS__ IN AUX")
+					
+								aux = aux.replace("__MEM__STORAGE__KEYS__", ", ".join([k for k in VYKOSX_STORAGE_DATA]) )
+						
+							if (pos:= aux.find("=>__AUX__DISPLAY__PREFIX__")) > 0:
+								ret = aux[:pos]+ret
+							
+							if (pos:= aux.find("__AUX__DISPLAY__SUFFIX__=>")) != -1:
+								ret+= aux[pos+26:] #26 = len("__AUX__DISPLAY__SUFFIX__=>")
+						
+							if (aux_var := "%aux" + ( "" if i==0 else str(i+1) ) + "%") in ret.casefold():
+									
+								if aux is not None:
+							
+									debug_print ("REPLACING '",aux_var,"' in '",ret,"' with '",aux,"'!",end="")
+										
+									ret = replace_caseless(ret,aux_var,aux)
+						
+			if "%" in ret:
 				
-			except Exception as x:
-				raise Exception("AN UNEXPECTED ERROR OCURRED:",x)
-				#pass
+				l_pos = ret.find("%")
+				if l_pos!= -1:
+					r_pos = ret.find("%",l_pos+1)
+					if r_pos!=-1:
+						name = ret[l_pos+1:r_pos]
+						if name in VYKOSX_STORAGE_DATA:
+							ret = ret.replace("%"+name+"%", str(repr( VYKOSX_STORAGE_DATA[name])).replace("'",""))
+					
+			#except Exception as x:
+				#raise Exception("AN UNEXPECTED ERROR OCURRED WHILE REPLACING VARIABLES:",x)
+
+			debug_print (">> PROCESSED TEXT AFTER VARIABLE REPLACEMENT: '",ret,"'",end="")
 			
-			debug_print (">> PROCESSED TEXT: '",ret,"'",end="")
-			
-			#if append_mem: ret+= str(repr( VYKOSX_STORAGE_DATA)).strip("'\"")
 			self.PREVIOUS = ret
 			
 			return ret
-						
+
+	def data_monitor(self,text="",output_type="ANY",passthrough=None,aux=None,aux2=None,aux3=None,aux4=None,aux5=None,unique_id=0):
+	
+		#TODO:
+		#Add $var$ to resolve to the value of mape variables/KJNodes get/set/ and anything everywhere nodes
+		
+		aux_list = [aux,aux2,aux3,aux4,aux5]
+		
+		debug_print("\n>> DATA MONITOR [",unique_id,"]")
+		debug_print("TEXT: ", str(text))
+		debug_print("PASSTHROUGH: ", type(passthrough), repr(passthrough) )
+		debug_print("AUX INPUTS: ", str(aux_list))
+		debug_print("PREV:", self.PREVIOUS)
+		debug_print("OUTPUT TYPE: ", output_type)
+
 		if (passthrough is not None):                
 
 			encapsulate = False
@@ -1061,18 +1086,14 @@ HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 					debug_print ("[!] PASSTHROUGH NUMERIC!")
 					
 					encapsulate = True
-					
-			debug_print("OUTPUT TYPE: ", output_type)
 
-			ret = replace_vars(passthrough,aux,self)
+			ret = self.replace_vars(passthrough,aux_list)
 
 			if ret == "":
 			
-				return {"ui": {"text": ret}, "result": (ret,)}			
-				#return {"ui": {"text": passthrough}, "result": (passthrough,)}
+				return {"ui": {"text": ret}, "result": (ret,)} #return {"ui": {"text": passthrough}, "result": (passthrough,)}
 				
-			else:
-				text = ret
+			else: text = ret
 			
 			debug_print ( "TEXT:", text )    
 			
@@ -1109,17 +1130,20 @@ HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 			
 			debug_print ("RETURN [PASSTHROUGH]:",type(text), repr(text))
 
-			display_text = repr(text).strip("'\"") if type(text) is not str else text
-			
+			try:
+				display_text = repr(text).strip("'\"") if type(text) is not str else text
+			except:
+				pass
+				display_text = json.loads(text)
+				
 			if encapsulate:
 				return {"ui": {"text": tuple([display_text]) },"result": tuple([text]) }
 			else:
 				return {"ui": {"text": display_text},"result": (text,)}
-		else:
 
-			debug_print("TEXT: ", type(text), repr(text))
+		else:
 			
-			text = replace_vars(text,aux,self)
+			text = self.replace_vars(text,aux_list)
 
 			match output_type:
 				case "INT":
@@ -1141,10 +1165,8 @@ HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 						text = safe_eval(str(text))
 			
 			debug_print ("RETURN [TEXT]:",text)
-
-			#return {"ui": {"text": str(text)},"result": (text,)}
 			
-			return (text),
+			return (text), 	#return {"ui": {"text": str(text)},"result": (text,)}
 
 	@classmethod
 	def IS_CHANGED(s,**kwargs):
