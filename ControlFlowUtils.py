@@ -1074,6 +1074,8 @@ class FallbackImagePreviewer(nodes.PreviewImage):
 	DESCRIPTION = """
 Allows you to preview an image even when the input is invalid or missing. If the input image is missing a black empty image of dimensions defined by Fallback_Width and Fallback_Height will be generated. If either parameter is set to 0 then no placeholder image will be generated.
 
+If the Save_Image toggle is enabled (and there are Input images present) the image will be saved to ComfyUI's output folder, otherwise it will only be displayed. 
+
 HOVER OVER THE INPUTS FOR MORE INFO.
 """
 	def empty_img_generate(self, width, height, batch_size=1, color=0):
@@ -1089,11 +1091,6 @@ HOVER OVER THE INPUTS FOR MORE INFO.
 			self.type = "output"
 			self.prefix_append = ""
 			self.compress_level = 4
-		#else:
-		#	self.output_dir = folder_paths.get_temp_directory()
-		#	self.type = "temp"
-		#	self.prefix_append = "_temp_" + ''.join(random.choice("abcdefghijklmnopqrstupvxyz") for x in range(5))
-		#	self.compress_level = 1
 
 		results = None #filename_prefix = = "VykosX.FallbackPreview"
 
