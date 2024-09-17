@@ -11,14 +11,14 @@ __all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS"]
 from . import Types
 from . import ControlFlowUtils
 
-any_type = Types.AnyType("*")
-
 NODE_CLASS_MAPPINGS = { 
 	"DataMonitor": ControlFlowUtils.DataMonitor,
 	"MemoryStorage": ControlFlowUtils.MemoryStorage,
 	"StringOperation": ControlFlowUtils.StringOperation,
 	"IfConditionSelector": ControlFlowUtils.IfConditionSelector,
 	"UniversalSwitch": ControlFlowUtils.UniversalSwitch,
+	"LoopOpen": ControlFlowUtils.LoopOpen,
+	"LoopClose": ControlFlowUtils.LoopClose,
 	"Cycle": ControlFlowUtils.Cycle,
 	"CycleContinue": ControlFlowUtils.CycleContinue,
 	"CycleEnd": ControlFlowUtils.CycleEnd,
@@ -32,6 +32,7 @@ NODE_CLASS_MAPPINGS = {
 	"UnloadModels": ControlFlowUtils.UnloadModels,
 	"ImageResolutionAdjust": ControlFlowUtils.ImageResolutionAdjust,
 	"FallbackImagePreviewer": ControlFlowUtils.FallbackImagePreviewer,
+	"FallbackAnyBatch": ControlFlowUtils.FallbackAnyBatch,
 	"FolderSearch": ControlFlowUtils.FolderSearch,
 	"ReadTextFile": ControlFlowUtils.ReadTextFile,
 	"SaveTextFile": ControlFlowUtils.SaveTextFile,
@@ -46,9 +47,11 @@ NODE_DISPLAY_NAME_MAPPINGS = {
 	"StringOperation": "🔠 String ⁄ List Operations", 
 	"IfConditionSelector": "🔀 IF (Condition Selector)",
 	"UniversalSwitch": "💠 Universal Switch",
+	"LoopOpen": "🔃 Loop Open",
+	"LoopClose": "⏹️ Loop Close",
 	"Cycle": "🔄 Cycle",
 	"CycleContinue": "⏩ Cycle Continue",
-	"CycleEnd": "⏪ Cycle End",
+	"CycleEnd": "⏪ Cycle Finish",
 	"NullOutput": "🔵 Null Output",
 	"NullInput": "🟦 Null Input",
 	"SimpleToggle": "🔶 Simple Toggle",
@@ -59,6 +62,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
 	"UnloadModels": "❌ Unload Models",
 	"ImageResolutionAdjust": "🌄 Image Resolution Adjust",
 	"FallbackImagePreviewer": "🖼️ Fallback Image Previewer",
+	"FallbackAnyBatch": "🪟 Fallback Any Batch",
 	"FolderSearch": "📁 Folder Search",
 	"ReadTextFile": "📄 Read Text File",
 	"SaveTextFile": "💾 Save Text File",

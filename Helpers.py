@@ -4,11 +4,24 @@ import math
 import random
 import fnmatch
 import os
+import torch
+#from torch import *  # Import PyTorch
 
 DEBUG_MODE = True #Enable this flag to get all sorts of useful debug information in the console from most of the nodes in this pack.
 
 # HELPER FUNCTIONS
-#******************
+#******************	
+def filter_node_id(node_id):
+	x = str(node_id).find(".")
+	return node_id if x == -1 else node_id[:x]
+
+def pack_tuple(prefix_type, general_type, count):
+	return tuple([prefix_type] + [general_type for x in range(0,count)])
+
+def debug_print(*args,end=" "):
+	if DEBUG_MODE:
+		print(end.join(map(str, args)),sep="")
+
 '''
 FUNCTION NAME: cbool
 PURPOSE: Converts values to Boolean
@@ -16,12 +29,6 @@ PARAMETERS:
  - value (Any): The value to convert
 RETURNS: True or False based on whether value can be interpreted as a Boolean
 '''
-
-def debug_print(*args,end=" "):
-	if DEBUG_MODE:
-		print(end.join(map(str, args)),sep="")
-
-	
 def cbool(value):
 	if str(value).lower() in ("yes", "y", "true",  "t", "1"):
 		return True
@@ -194,11 +201,6 @@ def replace_caseless(text="", old="",new="",max=0):
 			
 	return text
 
-import ast
-import operator
-import math
-import random
-
 # Define supported operators
 operators = {
 	ast.Add: operator.add,
@@ -210,8 +212,8 @@ operators = {
 	ast.Pow: operator.pow,
 	ast.BitXor: operator.xor,
 	ast.USub: operator.neg,
-	ast.UAdd: operator.pos,
-	ast.Invert: operator.inv,
+	ast.UAdd: operator.pos,  # Unary addition
+	ast.Invert: operator.inv,  # Bitwise inversion
 	ast.Eq: operator.eq,
 	ast.NotEq: operator.ne,
 	ast.Lt: operator.lt,
@@ -229,7 +231,7 @@ operators = {
 	ast.BitOr: operator.or_,
 	ast.LShift: operator.lshift,
 	ast.RShift: operator.rshift,
-	ast.MatMult: operator.matmul, 
+	ast.MatMult: operator.matmul,  # Matrix multiplication
 }
 
 # Define supported functions
@@ -272,6 +274,8 @@ default_functions = {
 	'zip': zip,
 	'math': math,
 	'random': random,
+	'torch': torch,
+	'tensor': torch.tensor,
 	'randrange': random.randrange,
 	'randint': random.randint,
 	'choice': random.choice,
@@ -280,6 +284,7 @@ default_functions = {
 	'uniform': random.uniform,
 	'rnd': random.random,
 	'seed': random.seed,
+	'Ellipsis': Ellipsis 
 }
 
 def safe_eval(expr, variables=None, additional_functions=None):
@@ -371,7 +376,7 @@ def safe_eval(expr, variables=None, additional_functions=None):
 					return False
 				left = right
 			return True
-		elif isinstance(node, ast.Num):	 # For Python 3.8 and earlier
+		elif isinstance(node, ast.Num):  # For Python 3.8 and earlier
 			return node.n
 		elif isinstance(node, ast.Constant):  # For Python 3.8 and later
 			return node.value
@@ -434,6 +439,8 @@ def safe_eval(expr, variables=None, additional_functions=None):
 			for stmt in node.body:
 				result = _eval(stmt, local_vars)
 			return result
+		elif isinstance(node, ast.Ellipsis):
+			return Ellipsis
 		else:
 			raise TypeError(f"Unsupported type: {type(node)}")
 
@@ -499,83 +506,84 @@ variables = {
 	'y': 5,
 	'z': {'a': 1, 'b': 2},
 	'a': 3,
-	'b': 4
+	'b': 4,
+	'tensor': torch.tensor([1, 2, 3])
 }
 expression1 = "x[y] + 2 ** 3"
 result1 = safe_eval(expression1, variables)
-print(result1)	# Output: 13
+print(result1)  # Output: 13
 
 expression2 = "z['a'] + z['b']"
 result2 = safe_eval(expression2, variables)
-print(result2)	# Output: 3
+print(result2)  # Output: 3
 
 expression3 = "a < b and z['a'] == 1"
 result3 = safe_eval(expression3, variables)
-print(result3)	# Output: True
+print(result3)  # Output: True
 
 expression4 = "not (a > b or z['b'] == 3)"
 result4 = safe_eval(expression4, variables)
-print(result4)	# Output: True
+print(result4)  # Output: True
 
 expression5 = "abs(-10) + len(x)"
 result5 = safe_eval(expression5, variables)
-print(result5)	# Output: 20
+print(result5)  # Output: 20
 
 expression6 = "math.sqrt(16)"
 result6 = safe_eval(expression6, variables)
-print(result6)	# Output: 4.0
+print(result6)  # Output: 4.0
 
 expression7 = "{'key1': 1, 'key2': 2}['key1'] + [1, 2, 3][1]"
 result7 = safe_eval(expression7, variables)
-print(result7)	# Output: 3
+print(result7)  # Output: 3
 
 expression8 = "[i * 2 for i in range(5)]"
 result8 = safe_eval(expression8, variables)
-print(result8)	# Output: [0, 2, 4, 6, 8]
+print(result8)  # Output: [0, 2, 4, 6, 8]
 
 expression9 = "[i * 2 for i in range(5) if i % 2 == 0]"
 result9 = safe_eval(expression9, variables)
-print(result9)	# Output: [0, 4, 8]
+print(result9)  # Output: [0, 4, 8]
 
 expression10 = "[[i * j for j in range(3)] for i in range(3)]"
 result10 = safe_eval(expression10, variables)
-print(result10)	 # Output: [[0, 0, 0], [0, 1, 2], [0, 2, 4]]
+print(result10)  # Output: [[0, 0, 0], [0, 1, 2], [0, 2, 4]]
 
 expression11 = "3 if a < b else 4"
 result11 = safe_eval(expression11, variables)
-print(result11)	 # Output: 3
+print(result11)  # Output: 3
 
 expression12 = "sorted([3, 1, 2])"
 result12 = safe_eval(expression12, variables)
-print(result12)	 # Output: [1, 2, 3]
+print(result12)  # Output: [1, 2, 3]
 
 expression13 = "list(reversed([1, 2, 3]))"
 result13 = safe_eval(expression13, variables)
-print(result13)	 # Output: [3, 2, 1]
+print(result13)  # Output: [3, 2, 1]
 
 expression14 = "list(map(lambda x: x * 2, [1, 2, 3]))"
 result14 = safe_eval(expression14, variables)
-print(result14)	 # Output: [2, 4, 6]
+print(result14)  # Output: [2, 4, 6]
 
 expression15 = "list(filter(lambda x: x % 2 == 0, [1, 2, 3, 4]))"
 result15 = safe_eval(expression15, variables)
-print(result15)	 # Output: [2, 4]
+print(result15)  # Output: [2, 4]
 
 expression16 = "all([True, True, False])"
 result16 = safe_eval(expression16, variables)
-print(result16)	 # Output: False
+print(result16)  # Output: False
 
 expression17 = "any([False, False, True])"
 result17 = safe_eval(expression17, variables)
-print(result17)	 # Output: True
+print(result17)  # Output: True
 
 expression18 = "list(zip([1, 2], ['a', 'b']))"
 result18 = safe_eval(expression18, variables)
-print(result18)	 # Output: [(1, 'a'), (2, 'b')]
+print(result18)  # Output: [(1, 'a'), (2, 'b')]
 
 expression19 = "list(enumerate(['a', 'b', 'c']))"
 result19 = safe_eval(expression19, variables)
-print(result19)	 # Output: [(0, 'a'), (1, 'b'), (2, 'c')]
+print(result19)  # Output: [(0, 'a'), (1, 'b'), (2, 'c')]
 
 # Example with additional functions
 additional_functions = {
@@ -583,17 +591,17 @@ additional_functions = {
 }
 expression20 = "custom_func(5)"
 result20 = safe_eval(expression20, variables, additional_functions)
-print(result20)	 # Output: 10
+print(result20)  # Output: 10
 
 # Example with bitwise inversion
 expression21 = "~5"
 result21 = safe_eval(expression21, variables)
-print(result21)	 # Output: -6
+print(result21)  # Output: -6
 
 # Example with math.pi
 expression22 = "math.pi"
 result22 = safe_eval(expression22, variables)
-print(result22)	 # Output: 3.141592653589793
+print(result22)  # Output: 3.141592653589793
 
 # Example with inline if assignment
 expression23 = "x = 10 if a < b else 20"
@@ -603,28 +611,28 @@ print(variables['x'])  # Output: 10
 # Example with walrus operator
 expression24 = "(y := 10) + 5"
 result24 = safe_eval(expression24, variables)
-print(result24)	 # Output: 15
+print(result24)  # Output: 15
 print(variables['y'])  # Output: 10
 
 # Example with dictionary merging
 expression25 = "{'a': 1} | {'b': 2}"
 result25 = safe_eval(expression25, variables)
-print(result25)	 # Output: {'a': 1, 'b': 2}
+print(result25)  # Output: {'a': 1, 'b': 2}
 
 # Example with random functions
 expression26 = "randrange(1, 10)"
 result26 = safe_eval(expression26, variables)
-print(result26)	 # Output: Random number between 1 and 9
+print(result26)  # Output: Random number between 1 and 9
 
 expression27 = "choice(['apple', 'banana', 'cherry'])"
 result27 = safe_eval(expression27, variables)
-print(result27)	 # Output: Randomly chosen fruit from the list
+print(result27)  # Output: Randomly chosen fruit from the list
 
 # Example with short-circuiting
 variables.update({'a': None, 'b': 7})
 expression28 = "False if a is None else a if a < b else False"
 result28 = safe_eval(expression28, variables)
-print(result28)	 # Output: False
+print(result28)  # Output: False
 
 # Example with multiple variable assignment
 expression29 = "a, b, c, d, e = 0, 1, 2, 3, 4"
@@ -640,5 +648,47 @@ print(variables['a'], variables['b'], variables['c'], variables['d'], variables[
 variables.update({'A': False, 'B': True, 'C': 'Short-circuited'})
 expression31 = "A and B or C"
 result31 = safe_eval(expression31, variables)
-print(result31)	 # Output: 'Short-circuited'
+print(result31)  # Output: 'Short-circuited'
+
+# Example with PyTorch tensor operations
+variables.update({'tensor': torch.tensor([1, 2, 3])})
+expression32 = "tensor + 1"
+result32 = safe_eval(expression32, variables)
+print(result32)  # Output: tensor([2, 3, 4])
+
+expression33 = "torch.sum(tensor)"
+result33 = safe_eval(expression33, variables)
+print(result33)  # Output: tensor(6)
+
+expression34 = "tensor * 2"
+result34 = safe_eval(expression34, variables)
+print(result34)  # Output: tensor([2, 4, 6])
+
+expression35 = "tensor[1]"
+result35 = safe_eval(expression35, variables)
+print(result35)  # Output: tensor(2)
+
+# Example with torch functions
+expression36 = "torch.sqrt(torch.tensor([4.0, 9.0, 16.0]))"
+result36 = safe_eval(expression36, variables)
+print(result36)  # Output: tensor([2., 3., 4.])
+
+expression37 = "torch.mean(torch.tensor([1.0, 2.0, 3.0]))"
+result37 = safe_eval(expression37, variables)
+print(result37)  # Output: tensor(2.)
+
+# Example with logical operations on tensors
+expression38 = "torch.eq(tensor, torch.tensor([1, 2, 3]))"
+result38 = safe_eval(expression38, variables)
+print(result38)  # Output: tensor([True, True, True])
+
+expression39 = "torch.logical_and(torch.tensor([True, False]), torch.tensor([True, True]))"
+result39 = safe_eval(expression39, variables)
+print(result39)  # Output: tensor([True, False])
+
+# Example with tensor slicing
+expression40 = "tensor[:2]"
+result40 = safe_eval(expression40, variables)
+print(result40)  # Output: tensor([1, 2])
+
 """
