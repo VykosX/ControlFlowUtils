@@ -1,7 +1,7 @@
 # ControlFlowUtils
 _Custom nodes for ComfyUI to enable flow control with advanced loops, conditional branching, logic operations and several other nifty utilities to enhance your ComfyUI workflows._
 
-### **Latest Release:** v0.0.3 Alpha (2024-09-07 - "Should be fairly stable now.")
+### **Latest Release:** v0.0.5 Alpha (2024-09-17 - "We got loops now boys!")
 ---
 
 # Quick Demonstration
@@ -21,16 +21,23 @@ https://github.com/user-attachments/assets/c7cddfb5-6881-4fe8-858d-a644fb6ea9a3
 These are the nodes currently implemented by this pack along with a basic description of their functionalities so you can have an idea of what this pack currently includes.
 For more detailed information, click on the title of each node which will direct you to its entry in [Wiki](https://github.com/VykosX/ControlFlowUtils/wiki/).
 
+## [Loops](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#Loop_Open)
+
+![chrome_K0J0DEnr2Y](https://github.com/user-attachments/assets/054b3d9b-0ee1-4ba4-93ac-85d5f38b99d8)
+![chrome_BnY0MztAoS](https://github.com/user-attachments/assets/ab6e733f-83c7-4dc7-87f6-7ca6eb7a8801)
+
+These two nodes make it possible to implement in-place looping in ComfyUI by utilzing the new Execution Model, in a simple but very powerful way. With the power of Loops, you are able to repeatedly execute a specific subset of notes in your workflow and automate all sorts of complex tasks!
+
 ## [Cycles](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#Cycle)
 ![Cycle](https://github.com/user-attachments/assets/fe8ec278-3ef2-4cf0-a35d-e05543ee9e81)
 ![Cycle Continue](https://github.com/user-attachments/assets/7f24e7ec-fde1-43dd-b0b6-fb43359e016c)
 ![Cycle End](https://github.com/user-attachments/assets/8769de88-488e-4da2-8056-605bf60b41ff)
 
-These three nodes in conjunction allow you to implement looping in ComfyUI by caching data to be processed through multiple prompts. Here is what a basic loop chain looks like:
+These three nodes in conjunction allow you to implement progressive tasks in ComfyUI by caching data to be processed through multiple successive prompts. Here is what a basic loop chain looks like:
 
 ![Minimum Cycle](https://github.com/user-attachments/assets/dbdbf9a7-6111-435f-b379-ff1fb7754cbf)
 
-Simply replace the Null Output node with the Data of your choice and it will be sent along with the loop allowing you to process it iteratively.
+Simply replace the Null Output node with the Data of your choice and it will be sent along with the loop allowing you to process any data iteratively.
 
 ## [If Selectors](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#IF_Condition_Selector)
 
@@ -97,6 +104,12 @@ This node will dynamically adjust the sizes of your images for any aspect ratio 
 ![Fallback Image Previewer](https://github.com/user-attachments/assets/3952e543-d8e5-4174-8996-c2fe674c4850)
 
 Image Previews in ComfyUI have one giant flaw. If you don't pass a valid image to them at any point in your workflow, they will stop your workflow dead in its tracks. This makes conditional branching for generating images at different parts of the workflow a nightmare to deal with. Well no mare. This smart node will silently ignore empty or invalid images or even generate a placeholder image if it's not supplied with a valid image instead!
+
+## [Fallback Any Batch](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#Fallback_Any_Batch)
+
+![chrome_lfpCxBecAM](https://github.com/user-attachments/assets/fceabc36-9e06-4fad-9077-0a8495096148)
+
+This node allows you to create batches with any kind of Data, whether they're images, latents or even primitive data types like strings, tuples and lists. It will dynamically adjust to the data you give it and all the inputs are optional, so you don't have to worry about missing nodes. Invaluable to use within loops and cycles when you're trying to combine multiple image generations but the first iteration of the loop only has the one image!
 
 ## [Folder Search](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#Folder_Search)
 
