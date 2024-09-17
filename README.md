@@ -14,7 +14,7 @@ And here is a clip that showcases an alternate means of achieving progressive ge
 
 https://github.com/user-attachments/assets/4f3e7f3e-58fe-45f8-9e12-219e28860939
 
-Furthermore, here is a simpler demonstration of looping in ComfyUI and preserving values across multiple queues with the nodes in this pack:
+Furthermore, here is a simpler demonstration of iterative processing in ComfyUI and preserving values across multiple queues with the nodes in this pack:
 
 https://github.com/user-attachments/assets/c7cddfb5-6881-4fe8-858d-a644fb6ea9a3
 
