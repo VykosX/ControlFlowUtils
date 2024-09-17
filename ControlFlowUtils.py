@@ -91,25 +91,14 @@ class Cycle:
 	FUNCTION = "run"
 	CATEGORY = MAIN_CATEGORY
 	DESCRIPTION = \
-"""Begins a Cycle, a kind of Loop that gets iterated each time a prompt
-is executed. You can use Cycles to send information forwards into subsequent
-prompts, allowing for workflows that process data in an iterative manner.
+"""Begins a Cycle, a kind of Loop that gets iterated each time a prompt is executed. You can use Cycles to send information forwards into subsequent prompts, allowing for workflows that process data in an iterative manner.
 
-Connect the CYCLE Output of this node to a [Cycle Continue]'s CYCLE Input
-to begin the loop.
+Connect the CYCLE Output of this node to a [Cycle Continue](#Cycle_Continue)'s CYCLE Input to begin the loop.
 
-The first iteration of the loop is called a 'DRY RUN' and Data, Aux and
-Index will all be set to None. Additionally the "Reset?" output will
-return True so you can test this with an [IF Selector] node to determine
-whether you are in the first execution of the loop. You can also trigger
-a manual reset to the fist 'DRY RUN' iteration by toggling the Manual_Reset
-Input. Use the 'DRY RUN' to reset any variables or the state of your
-workflow whenever a fresh Cycle has started.
+The first iteration of the loop is called a 'DRY RUN', Index, Data and all Aux_Data Inputs will be set to None. Additionally the "Reset?" output will
+return True so you can test this with an [IF Selector](#IF_Condition_Selector) node to determine whether you are in the first execution of the loop. You can also trigger a manual reset to the fist 'DRY RUN' iteration by toggling the Manual_Reset Input. Use the 'DRY RUN' to reset any variables or the state of your workflow whenever a fresh Cycle has started.
 
-Set your Start, End and Step parameters to the values you would like to
-iterate from, to and by, respectively. If you'd like the loop to return
-automatically to the original Start value, enable the Auto_Reset Input,
-otherwise the cycle will continue to apply Step to Index on each iteration.
+Set your Start, End and Step parameters to the values you would like to iterate from, to and by, respectively. If you'd like the loop to return automatically to the original Start value, enable the Auto_Reset Input, otherwise the cycle will continue to apply Step to Index on each iteration.
 
 HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
@@ -247,7 +236,7 @@ executed. You can use Cycles to send information forwards into subsequent
 prompts, allowing for workflows that process data in an iterative manner.
 
 Connect the CYCLE input of this node to a [Cycle]'s CYCLE output node to
-establish a loop. Information from Data and Aux will flow through the
+establish a loop. Information from Data and Aux Inputs will flow through the
 CYCLE line and be cached to be retrieved upon the next loop iteration.
 
 The Index output specifies the current value of the loop counter after Step
@@ -340,7 +329,7 @@ You can set the Data and Aux Data Inputs to any Data you wish to iterate on for 
 
 You can use the Index_Override Input to manually force the loop to skip to a specific index prematurely. If Condition does not evaluate to True for the [Loop Open] node, Execution will be blocked and any nodes following [Loop Open] will not execute.
 
-This node uses the new Execution Inversion mechanics and requires an updated version of ComfyUI. It works by dynamically cloning all the nodes that are connected as children of the [Loop Open] and [Loop Close] nodes, while forwarding the data to the copies on each iteration. This is still a bit of proof of concept, so issues may occur. Please report any bugs on the	 Issues page of this node pack's Github repo!
+This node uses the new Execution Inversion mechanics and requires an updated version of ComfyUI. It works by dynamically cloning all the nodes that are connected as children of the [Loop Open] and [Loop Close] nodes, while forwarding the data to the copies on each iteration. This is still a bit of proof of concept, so issues may occur. Please report any bugs on the Issues page of this node pack's Github repo!
 
 HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 """
