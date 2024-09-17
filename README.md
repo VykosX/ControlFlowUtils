@@ -77,7 +77,7 @@ This one is for everyone with low RAM (16gb or less) systems that struggle with 
 
 ## [Data Monitor](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#Data_Monitor)
 
-![Data Monitor Expanded](https://github.com/user-attachments/assets/eae1ed5f-5628-42c2-a3bc-17cbd97a6598)
+![Data Monitor Expanded](https://github.com/user-attachments/assets/eefd1ed9-db39-4f9f-93ba-a10637b5c87e)
 
 Your one stop shop for all things Data in ComfyUI. This node allows you to visualize the output of any nodes with full passthrough support, serves as a convenient textbox while allowing you to pick the type of the data you wish to convert your output to, supports advanced features including the ability to run advanced mathematical evaluations, data generations, conditions and straight up any valid python code in a safe and non-exploitable manner, and much, much more! For a full list of supported features, consult the wiki entry.
 
@@ -101,7 +101,7 @@ This node will dynamically adjust the sizes of your images for any aspect ratio 
 
 ## [Fallback Image Previews](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#Fallback_Image_Previewer)
 
-![Fallback Image Previewer](https://github.com/user-attachments/assets/3952e543-d8e5-4174-8996-c2fe674c4850)
+![chrome_KqSzQKxzCm](https://github.com/user-attachments/assets/36519780-e157-458f-b75f-05b6574c3dfe)
 
 Image Previews in ComfyUI have one giant flaw. If you don't pass a valid image to them at any point in your workflow, they will stop your workflow dead in its tracks. This makes conditional branching for generating images at different parts of the workflow a nightmare to deal with. Well no mare. This smart node will silently ignore empty or invalid images or even generate a placeholder image if it's not supplied with a valid image instead!
 
@@ -125,7 +125,7 @@ These nodes allow you to easily read and write to text files anywhere in your sy
 
 Check the [Wiki]([#wiki](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#Null_Input)) page for a full description of these nodes! Attached are the images for some of the more niche however very useful nodes this pack includes for convenience. It's all about the little things!
 
-![Null Input](https://github.com/user-attachments/assets/3de757fe-9151-4f2a-978b-d4dfd3ece6d3)
+![chrome_Z3KjElmcW7](https://github.com/user-attachments/assets/3e519181-bf1b-4a4b-bea4-43fcec5cad4e)
 ![Null Output](https://github.com/user-attachments/assets/99656fa2-fd48-42f8-aefc-7e563038c2d2)
 ![Simple Toggle](https://github.com/user-attachments/assets/c2d76549-4a1a-4d6c-a226-a8047f0d36f5)
 ![Model Selector](https://github.com/user-attachments/assets/41ca172a-8dc2-40af-97c9-1a9442ac5cb4)
