@@ -107,7 +107,9 @@ This node will dynamically adjust the sizes of your images for any aspect ratio 
 
 ![chrome_KqSzQKxzCm](https://github.com/user-attachments/assets/36519780-e157-458f-b75f-05b6574c3dfe)
 
-Image Previews in ComfyUI have one giant flaw. If you don't pass a valid image to them at any point in your workflow, they will stop your workflow dead in its tracks. This makes conditional branching for generating images at different parts of the workflow a nightmare to deal with. Well no mare. This smart node will silently ignore empty or invalid images or even generate a placeholder image if it's not supplied with a valid image instead!
+Image Previews in ComfyUI have one giant flaw. If you don't pass a valid image to them at any point in your workflow, they will stop your workflow dead in its tracks. This makes conditional branching for generating images at different parts of the workflow a nightmare to deal with. Well no more. 
+
+This smart node will silently ignore empty or invalid images or even generate a placeholder image if it's not supplied with a valid image instead! You can optimally save the previewed image as well. The passthrough output further makes this node ideal to use within Loops as it does get properly updated for each iteration, unlike regular PreviewImage nodes.
 
 ## [Fallback Any Batch](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#Fallback_Any_Batch)
 
