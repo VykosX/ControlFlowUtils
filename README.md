@@ -26,7 +26,7 @@ For more detailed information, click on the title of each node which will direct
 ![chrome_K0J0DEnr2Y](https://github.com/user-attachments/assets/054b3d9b-0ee1-4ba4-93ac-85d5f38b99d8)
 ![chrome_BnY0MztAoS](https://github.com/user-attachments/assets/ab6e733f-83c7-4dc7-87f6-7ca6eb7a8801)
 
-These two nodes make it possible to implement in-place looping in ComfyUI by utilzing the new Execution Model, in a simple but very powerful way. With the power of Loops, you are able to repeatedly execute a specific subset of notes in your workflow and automate all sorts of complex tasks!
+These two nodes make it possible to implement in-place looping in ComfyUI by utilizing the new Execution Model, in a simple but very powerful way. With the power of Loops, you are able to repeatedly execute a specific subset of notes in your workflow and automate all sorts of complex tasks!
 
 ## [Cycles](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#Cycle)
 ![Cycle](https://github.com/user-attachments/assets/fe8ec278-3ef2-4cf0-a35d-e05543ee9e81)
