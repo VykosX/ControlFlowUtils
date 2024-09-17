@@ -6,7 +6,11 @@ _Custom nodes for ComfyUI to enable flow control with advanced loops, conditiona
 
 # Quick Demonstration
 
-Here is a clip of one of the sample workflows in action, showcasing utilizing cycles to achieve iterative generation with different models and image sizes:
+Here is a sanple showcasing Looping in-place to generate a batch of images with configurable variations using a single Ksampler:
+
+https://github.com/user-attachments/assets/d069fcea-35de-479e-8550-6aae1f41beb4
+
+And here is a clip that showcases an alternate means of achieving progressive generations, utilizing Cycles to to perform iterations across multiple prompts and generate imahes with different models and resolutions:
 
 https://github.com/user-attachments/assets/4f3e7f3e-58fe-45f8-9e12-219e28860939
 
@@ -126,7 +130,11 @@ These nodes allow you to easily read and write to text files anywhere in your sy
 Check the [Wiki]([#wiki](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#Null_Input)) page for a full description of these nodes! Attached are the images for some of the more niche however very useful nodes this pack includes for convenience. It's all about the little things!
 
 ![chrome_Z3KjElmcW7](https://github.com/user-attachments/assets/3e519181-bf1b-4a4b-bea4-43fcec5cad4e)
-![Null Output](https://github.com/user-attachments/assets/99656fa2-fd48-42f8-aefc-7e563038c2d2)
+![Null
+
+https://github.com/user-attachments/assets/3c3062ae-8275-49f7-bd84-170e65d11e2e
+
+ Output](https://github.com/user-attachments/assets/99656fa2-fd48-42f8-aefc-7e563038c2d2)
 ![Simple Toggle](https://github.com/user-attachments/assets/c2d76549-4a1a-4d6c-a226-a8047f0d36f5)
 ![NOT](https://github.com/user-attachments/assets/883d8ed9-5585-4622-ae0a-544ef690c326)
 ![Model Selector](https://github.com/user-attachments/assets/41ca172a-8dc2-40af-97c9-1a9442ac5cb4)
