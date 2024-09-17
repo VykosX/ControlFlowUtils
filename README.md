@@ -128,6 +128,7 @@ Check the [Wiki]([#wiki](https://github.com/VykosX/ControlFlowUtils/wiki/Control
 ![chrome_Z3KjElmcW7](https://github.com/user-attachments/assets/3e519181-bf1b-4a4b-bea4-43fcec5cad4e)
 ![Null Output](https://github.com/user-attachments/assets/99656fa2-fd48-42f8-aefc-7e563038c2d2)
 ![Simple Toggle](https://github.com/user-attachments/assets/c2d76549-4a1a-4d6c-a226-a8047f0d36f5)
+![NOT](https://github.com/user-attachments/assets/883d8ed9-5585-4622-ae0a-544ef690c326)
 ![Model Selector](https://github.com/user-attachments/assets/41ca172a-8dc2-40af-97c9-1a9442ac5cb4)
 ![LoRA Selector](https://github.com/user-attachments/assets/43286fcb-1f4a-4699-a9a3-11c322c61615)
 ![VAE Selector](https://github.com/user-attachments/assets/e4ba2666-3d95-4945-b178-6ae21bbe7a90)
