@@ -23,7 +23,7 @@ https://github.com/user-attachments/assets/c7cddfb5-6881-4fe8-858d-a644fb6ea9a3
 # Included Nodes
 
 These are the nodes currently implemented by this pack along with a basic description of their functionalities so you can have an idea of what this pack currently includes.
-For more detailed information, click on the title of each node which will direct you to its entry in [Wiki](https://github.com/VykosX/ControlFlowUtils/wiki/).
+For more detailed information, click on the title of each node which will direct you to its entry in the [Wiki](https://github.com/VykosX/ControlFlowUtils/wiki/).
 
 ## [Loops](https://github.com/VykosX/ControlFlowUtils/wiki/ControlFlowUtils-%E2%80%90-In-Depth-Node-Explanation#Loop_Open)
 
