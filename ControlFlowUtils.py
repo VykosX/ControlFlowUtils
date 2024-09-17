@@ -967,18 +967,27 @@ class FallbackAnyBatch():
 
 		return {
 			"required": {
-					"method_for_images": (["nearest-exact", "bilinear", "area", "bicubic", "lanczos"], { "default": "lanczos" }),
+					"method_for_images": (["nearest-exact", "bilinear", "area", "bicubic", "lanczos"], { "default": "lanczos", "tooltip": "Image scaling algorithm to use when creating image batches" }),
 			},"optional": {
-					"input%d" % x: (any_type, {}) for x in range(1,s.max_slots+1) #{"lazy": True}
+					"input%d" % x: (any_type, {"tooltip": "Data to join into a batch.\nMay be a tensor, list, tuple or primitive"}) for x in range(1,s.max_slots+1) #{"lazy": True}
 			},
 		}
 
 
 	RETURN_TYPES = (any_type,)
 	RETURN_NAMES = ("batch",)
+	OUTPUT_TOOLTIPS = ("Batch created by joining all the Inputs",)
 	FUNCTION = "fallback_batch"
 	CATEGORY = MAIN_CATEGORY
+	DESCRIPTION = \
+"""This node allows you to easily create batches from any type of Data. This is invaluable when working with Loops as often you will have different amounts of image generations or data to process depending on the iteration. This node silently ignores any missing inputs allowing you to be conditional with your batches.
 
+Supported Data types are Tensors (images, latents, models, etc), Lists, Tuples and Primitive data types (strings, integers, floats, etc).
+
+When batching images, the final output size will match the dimensions of the very first input image. We recommend creating batches of a single type per node, mixing and matching different types of data into the same batch may have unexpected behavior.
+
+HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
+"""
 	def fallback_batch(self, method_for_images, **kwargs):
 
 		batch = None
