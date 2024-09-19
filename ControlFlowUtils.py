@@ -787,9 +787,15 @@ HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 				case "B in A":
 					ret = (B in A)
 				case "A == B":
-					ret = (A == B)
+					if isinstance(A, torch.Tensor) and isinstance(B, torch.Tensor):
+						ret = torch.equal(A, B)
+					else:
+						ret = (A == B)
 				case "A != B":
-					ret = (A != B)
+					if isinstance(A, torch.Tensor) and isinstance(B, torch.Tensor):
+						ret = not torch.equal(A, B)
+					else:
+						ret = (A != B)
 				case "A > B":
 					ret = (A > B)
 				case "A >= B":
