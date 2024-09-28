@@ -1,7 +1,7 @@
 [project]
 name = "VykosX-ControlFlowUtils"
 description = "Custom nodes to improve flow control and logic + several utilities to enhance capabilities"
-version = "0.5.0"
+version = "0.6.0"
 license = "GPL v3"
 
 [project.urls]

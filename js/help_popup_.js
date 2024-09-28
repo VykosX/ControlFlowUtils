@@ -116,7 +116,7 @@ const create_documentation_stylesheet = () => {
         docElement.classList.add('sie-documentation-popup')
         
         //parse the string from the python node code to html with marked, and sanitize the html with DOMPurify
-        contentWrapper.innerHTML = DOMPurify.sanitize(marked.parse(nodeData.description,))
+        contentWrapper.innerHTML = nodeData.description.replace(/\r\n|\r|\n/g, '<br />'); // DOMPurify.sanitize(marked.parse(nodeData.description,))
 
         // resize handle
         const resizeHandle = document.createElement('div');
