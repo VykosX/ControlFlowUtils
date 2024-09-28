@@ -3,7 +3,7 @@
 @Description: Custom nodes for ComfyUI to enable flow control with advanced loops, conditional branching, logic operations and several other nifty utilities to enhance your ComfyUI workflows
 @Title: ControlFlowUtils
 @Nickname: ControlFlowUtils
-@Version: 0.5.0 ALPHA
+@Version: 0.6.0 ALPHA
 @URL: https://github.com/VykosX/ControlFlowUtils
 """
 # UNSTABLE ALPHA RELEASE - EXPECT BUGS TO BITE
@@ -14,6 +14,7 @@ import json
 import os
 import gc
 import time
+import re
 from datetime import datetime
 from random import randrange as rnd
 
@@ -344,17 +345,17 @@ HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 
 		if original_id is None:
 			original_id = kwargs['unique_id']
-			debug_print ("\nLOOP [",original_id,"] START!")
+			debug_print ("\n>> LOOP [",original_id,"] START!")
 		else:
-			debug_print ("\nLOOP [",original_id,"] ITERATION:",index)
+			debug_print ("\n>> LOOP [",original_id,"] ITERATION:",index)
 
 		finished = (( end - index ) <= 0) if step >= 0 else (( end - index ) >= 0)
 		loop_status = {"id":original_id,"start":start,"end":end,"step":step,"index":index,"finished":finished,"last_id":kwargs['unique_id']}
 
 		Vars = loop_status
 		for key, value in VYKOSX_STORAGE_DATA.items(): Vars[key] = value
-		#for key, value in kwargs.items():
-		#	if key!="unique_id" or key!="original_id": Vars[key] = value
+		for key, value in kwargs.items():
+			if key!="unique_id" or key!="original_id": Vars[key] = value
 
 		debug_print ("VARS=",Vars)
 
@@ -373,8 +374,9 @@ HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 
 			if ExecutionBlocker is None:
 				raise Exception("Unable to block execution, please update your ComfyUI to enable this functionality!")
-			else:
-				return (ExecutionBlocker(None,),) #Block execution past this node, since we've failed the condition // #[loop_status],
+			else:				
+				return tuple( [ExecutionBlocker(None) for x in range(0,self.max_slots+1)] )
+			
 
 class LoopClose:
 	def __init__(self):
@@ -446,12 +448,13 @@ HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 
 		if condition=="": condition = True
 
-		#open_condition = LOOP.get('condition',"True")
-		#debug_print (">> OPEN CONDITION:",open_condition)
+		debug_print ("\n>> LOOP [",LOOP.get('id',0),"] CLOSE")
 
 		Vars = LOOP; Vars['condition_close'] = condition
-		for key, value in VYKOSX_STORAGE_DATA.items(): Vars[key] = value
 
+		for key, value in VYKOSX_STORAGE_DATA.items(): Vars[key] = value
+		for key, value in kwargs.items(): Vars[key] = value
+		
 		if LOOP['finished'] or not safe_eval(condition,Vars):
 
 			values = [True, kwargs.get('data',None) , kwargs.get('aux',None)]
@@ -460,8 +463,6 @@ HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 				values.append(kwargs.get("aux%d" % i, None))
 
 			debug_print ("\nLOOP [",LOOP.get('id',0),"] FINISHED!")
-
-			#debug_print ( "LOOP [" + str(LOOP['id']) + "] FINISHED!" )
 
 			return tuple(values)
 
@@ -787,9 +788,15 @@ HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 				case "B in A":
 					ret = (B in A)
 				case "A == B":
-					ret = (A == B)
+					if isinstance(A, torch.Tensor) and isinstance(B, torch.Tensor):
+						ret = torch.equal(A, B)
+					else:
+						ret = (A == B)
 				case "A != B":
-					ret = (A != B)
+					if isinstance(A, torch.Tensor) and isinstance(B, torch.Tensor):
+						ret = not torch.equal(A, B)
+					else:
+						ret = (A != B)
 				case "A > B":
 					ret = (A > B)
 				case "A >= B":
@@ -1292,11 +1299,11 @@ HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 
 	PREVIOUS = ""
 
-	def replace_vars(self,text_value,aux_list):
+	def replace_vars(self,passthrough,aux_list):
 
 			global VYKOSX_STORAGE_DATA
 
-			if text_value is None: text_value = ""
+			if passthrough is None: passthrough = ""
 
 			ret,append_mem = "",False
 
@@ -1304,40 +1311,46 @@ HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 
 			#Passthrough Replacements:
 
-			ret = str(text_value)
+			if isinstance(passthrough, torch.Tensor):
 
-			if "%prev%" in ret.casefold():
-				debug_print (">> %PREV% FOUND IN TEXT!")
-				ret = replace_caseless(ret,"%prev%", str(repr( self.PREVIOUS)).replace("'",""))
+				ret = passthrough
 
-			if "__MEM__STORAGE__CLEAR__" in ret:
-				debug_print ("MEM CLEAR REQUEST!")
-				ret = ret.replace("__MEM__STORAGE__CLEAR__", "")
-				VYKOSX_STORAGE_DATA = {}
+			else:
 
-			if "__MEM__STORAGE__GET__" in ret:
-					ret = ret.replace("__MEM__STORAGE__GET__", str(repr( VYKOSX_STORAGE_DATA)).strip("'\""))
+				ret = str(passthrough)
 
-			if "__MEM__STORAGE__SET__" in ret:
+				if "%prev%" in ret.casefold():
+					debug_print (">> %PREV% FOUND IN TEXT!")
+					ret = replace_caseless(ret,"%prev%", str(repr( self.PREVIOUS)).replace("'",""))
 
-					if aux_list is not None and type(aux_list[0]) is dict:
-						VYKOSX_STORAGE_DATA = aux_list[0]
-						ret = ret.replace("__MEM__STORAGE__SET__", "")
+				if "__MEM__STORAGE__CLEAR__" in ret:
+					debug_print ("MEM CLEAR REQUEST!")
+					ret = ret.replace("__MEM__STORAGE__CLEAR__", "")
+					VYKOSX_STORAGE_DATA = {}
 
-					else:
-						raise Exception("__MEM__STORAGE__SET__ requires a valid dictionary input in the first Aux_Input!")
+				if "__MEM__STORAGE__GET__" in ret:
+						ret = ret.replace("__MEM__STORAGE__GET__", str(repr( VYKOSX_STORAGE_DATA)).strip("'\""))
 
-			if "__MEM__STORAGE__KEYS__" in ret:
+				if "__MEM__STORAGE__SET__" in ret:
 
-					ret = ret.replace("__MEM__STORAGE__KEYS__", ", ".join([k for k in VYKOSX_STORAGE_DATA]) )
+						if aux_list is not None and type(aux_list[0]) is dict:
+							VYKOSX_STORAGE_DATA = aux_list[0]
+							ret = ret.replace("__MEM__STORAGE__SET__", "")
+
+						else:
+							raise Exception("__MEM__STORAGE__SET__ requires a valid dictionary input in the first Aux_Input!")
+
+				if "__MEM__STORAGE__KEYS__" in ret:
+
+						ret = ret.replace("__MEM__STORAGE__KEYS__", ", ".join([k for k in VYKOSX_STORAGE_DATA]) )
 
 			if aux_list is not None:
 
 				for i,aux in enumerate(aux_list):
-
+						
 					if aux is not None:
 
-						aux = str(aux)
+						aux = str(aux)#"" if aux is None else str(aux)
 
 						if aux.casefold() == "%clear%":
 
@@ -1386,11 +1399,13 @@ HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 
 							if (aux_var := "%aux" + ( "" if i==0 else str(i+1) ) + "%") in ret.casefold():
 
-								if aux is not None:
+								debug_print ("REPLACING '",aux_var,"' in '",ret,"' with '",aux,"'!",end="")
 
-									debug_print ("REPLACING '",aux_var,"' in '",ret,"' with '",aux,"'!",end="")
+								ret = replace_caseless(ret,aux_var,aux)
 
-									ret = replace_caseless(ret,aux_var,aux)
+								if "...," in ret: #Remove ellipsis from tensor representations as it causes issues with safe_eval
+									#Remove the ellipsis while preserving the alignment. The tensor repr is not valid for direct tensor manipulations but at least it won't error.									
+									ret = re.sub(r'\],\s*\.\.\.\s*,(\s*\n\s*)\[', '],\\1[', ret)
 
 			if "%" in ret:
 
@@ -1401,6 +1416,9 @@ HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 						name = ret[l_pos+1:r_pos]
 						if name in VYKOSX_STORAGE_DATA:
 							ret = ret.replace("%"+name+"%", str(repr( VYKOSX_STORAGE_DATA[name])).replace("'",""))
+							if "...," in ret: #Remove ellipsis from tensor representations as it causes issues with safe_eval
+								#Remove the ellipsis while preserving the alignment. The tensor repr is not valid for direct tensor manipulations but at least it won't error.									
+								ret = re.sub(r'\],\s*\.\.\.\s*,(\s*\n\s*)\[', '],\\1[', ret)
 
 			#except Exception as x:
 				#raise Exception("AN UNEXPECTED ERROR OCURRED WHILE REPLACING VARIABLES:",x)
@@ -1937,6 +1955,9 @@ HOVER OVER THE INPUTS AND OUTPUTS FOR MORE INFO.
 			if mode == "new only" and os.path.exists(file_path):
 				raise Exception("File already exists and 'new only' is selected.")
 				Return (False,)
+
+			dir_path = os.path.dirname(file_path)
+			if dir_path: os.makedirs(dir_path, exist_ok=True) #Create the parent directory structure if it doesn't exist
 
 			with open(file_path, "a+" if mode == "append" else "w", encoding="utf-8") as f:
 
