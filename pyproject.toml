@@ -2,7 +2,7 @@
 name = "VykosX-ControlFlowUtils"
 description = "Custom nodes to improve flow control and logic + several utilities to enhance capabilities"
 version = "0.6.0"
-license = "GPL v3"
+license = { text = "GNU General Public License v3.0" }
 
 [project.urls]
 Repository = "https://github.com/VykosX/ControlFlowUtils/"
